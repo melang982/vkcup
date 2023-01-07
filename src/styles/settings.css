@@ -1,0 +1,48 @@
+#btn-settings {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 30px;
+  bottom: 22px;
+}
+
+#settings__popup {
+  display: none;
+  position: absolute;
+  gap: 1px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 400px;
+  background: #dadce0;
+  box-shadow: 0px -3px 48px rgb(0 16 61 / 28%);
+  z-index: 1;
+}
+
+#settings__buttons {
+  padding: 20px 17px 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#settings__popup button {
+  display: block;
+  width: 223px;
+  height: 40px;
+
+  border-radius: 8px;
+}
+
+#settings__popup div {
+  background: var(--white);
+}
+
+#settings__language {
+  display: none;
+}
+
+#settings__language,
+#settings__theme {
+  flex-grow: 1;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mail.ru</title>
+  </head>
+  <body>
+    <div id="wrap">
+      <header>
+        <a href="/" data-link><svg-icon name="logo" width="96" height="32" /></a>
+      </header>
+      <div class="columns">
+        <nav id="nav">
+          <button id="btn-compose" data-i18n-key="compose"></button>
+          <div id="folders"></div>
+          <hr />
+          <button id="btn-new-folder" data-i18n-key="new-folder">
+            <svg-icon name="add" />
+          </button>
+        </nav>
+        <div id="app"></div>
+        <button id="btn-settings" data-i18n-key="settings">
+          <svg width="20" height="20" viewBox="0 0 20 20">
+            <use href="/icons/gear.svg#id"></use>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="settings__popup">
+      <div id="settings__buttons">
+        <button id="settings__btn-theme" class="nav-btn" active data-i18n-key="appearance"></button>
+        <button id="settings__btn-language" class="nav-btn">Язык: русский</button>
+      </div>
+      <div id="settings__theme" data-i18n-key="appearance-description"></div>
+      <div id="settings__language" data-i18n-key="change-language"></div>
+    </div>
+    <script type="module" src="/src/index.js"></script>
+  </body>
+</html>
