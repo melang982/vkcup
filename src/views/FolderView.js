@@ -8,6 +8,6 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
-    return `<letter-list folderSlug=${this.params.folderSlug} />`;
+    return `<letter-list folderSlug=${this.params.folderSlug}></letter-list><div id="infinite-scroll"></div>`;
   }
 }

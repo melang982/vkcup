@@ -1,5 +1,5 @@
 #btn-settings {
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   left: 30px;

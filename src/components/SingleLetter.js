@@ -1,4 +1,4 @@
-import { getSingleLetterWithCache } from "../api/api.js";
+import { getSingleLetter } from "../api/api.js";
 
 class SingleLetter extends HTMLElement {
   constructor() {
@@ -6,7 +6,7 @@ class SingleLetter extends HTMLElement {
   }
 
   connectedCallback() {
-    getSingleLetterWithCache(this.getAttribute("id")).then((jsonData) => {
+    getSingleLetter(this.getAttribute("id")).then((jsonData) => {
       //console.log(jsonData);
       this.innerHTML = jsonData.text;
     });

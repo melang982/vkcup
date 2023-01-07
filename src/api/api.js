@@ -1,31 +1,20 @@
-const folderCache = {};
-const letterCache = {};
+const apiCache = {};
 
-const getLetters = (folderSlug) => {
-  return fetch(`/api/${folderSlug}?cursor=0`).then((response) => response.json());
-};
-
-const getSingleLetter = (id) => {
-  return fetch(`/api/mail/${id}`).then((response) => response.json());
-};
-
-const getWithCache = (apiMethod, cache, id) => {
+const getWithCache = (url) => {
   return new Promise((resolve, reject) => {
-    if (cache[id]) resolve(cache[id]);
+    if (apiCache[url]) resolve(apiCache[url]);
     else
-      apiMethod(id).then((jsonData) => {
-        cache[id] = jsonData;
-        resolve(jsonData);
-      });
+      fetch(url)
+        .then((response) => response.json())
+        .then((jsonData) => {
+          apiCache[url] = jsonData;
+          resolve(jsonData);
+        });
   });
 };
 
-export const getLettersWithCache = (folderSlug) =>
-  getWithCache(getLetters, folderCache, folderSlug);
+const getLetters = (folderSlug, cursor = 0) => getWithCache(`/api/${folderSlug}?cursor=${cursor}`);
 
-export const getSingleLetterWithCache = (id) => getWithCache(getSingleLetter, letterCache, id);
+const getSingleLetter = (id) => getWithCache(`/api/mail/${id}`);
 
-export default {
-  getLettersWithCache,
-  getSingleLetterWithCache,
-};
+export { getLetters, getSingleLetter };
