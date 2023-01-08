@@ -16,10 +16,16 @@ class LetterItem extends HTMLElement {
   }
 
   connectedCallback() {
-    const link = addChild(this, "a", "letter-item" + (this.item.read ? "" : " unread"), null, {
-      href: `/${this.getAttribute("folderSlug")}/${this.item.id}`,
-      "data-link": "", //used for SPA routing
-    });
+    const link = addChild(
+      this,
+      "a",
+      "letter-item nav-btn" + (this.item.read ? "" : " unread"),
+      null,
+      {
+        href: `/${this.getAttribute("folderSlug")}/${this.item.id}`,
+        "data-link": "", //used for SPA routing
+      }
+    );
 
     if (!this.item.read) addChild(link, "div", "unread-icon");
 

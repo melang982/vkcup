@@ -1,0 +1,114 @@
+:root {
+  --background-dark: #19191a;
+  --text-primary-dark: #e7e8ea;
+  --letter-background-dark: #232324;
+  --icon-accent-dark: #3c82fd;
+  --text-secondary-dark: #8c8e94;
+  --transparent-hover-dark: rgba(255, 255, 255, 0.04);
+  --transparent-active-dark: rgba(255, 255, 255, 0.08);
+  --compose-dark: #333333;
+  --separator-dark: rgba(0, 0, 0, 0.4);
+  --icon-dark: #d9dadd;
+  --text-link-dark: #589bff;
+}
+
+.dark {
+  color: var(--text-primary-dark);
+}
+
+.dark .wrap {
+  background: var(--background-dark);
+}
+
+.color-theme header:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: inherit;
+  filter: brightness(65%) saturate(150%);
+  z-index: -1;
+}
+
+.color-theme header use {
+  fill: var(--white);
+}
+
+.dark .nav-btn:hover {
+  background: var(--transparent-hover-dark);
+}
+
+.dark .nav-btn.active {
+  background: var(--transparent-active-dark);
+}
+
+.dark .folder {
+  color: var(--text-primary-dark);
+}
+
+.dark use {
+  fill: var(--text-primary-dark);
+}
+
+.dark .attachment__text a {
+  color: var(--text-link-dark);
+}
+
+.dark .btn-compose {
+  color: var(--compose-dark);
+  border-color: var(--separator-dark);
+}
+
+.dark hr {
+  border-color: var(--separator-dark);
+}
+
+.dark header,
+.dark letter-list,
+.dark letter-item > a {
+  background: var(--letter-background-dark);
+}
+
+.dark .folders,
+.dark .btn-theme {
+  color: var(--text-primary-dark);
+}
+
+.dark .divider {
+  background: var(--separator-dark);
+}
+
+.dark .letter-item__text,
+.dark .letter-item__date {
+  color: var(--text-secondary-dark);
+}
+
+.dark .folder path,
+.dark header path:nth-child(2),
+.dark .btn-theme rect {
+  fill: var(--white);
+}
+
+.dark .btn-new-folder path {
+  fill: var(--text-primary-dark);
+}
+
+.dark .btn-theme path {
+  stroke: var(--white);
+}
+
+.dark header .btn path,
+.dark .attach-icon path {
+  fill: var(--icon-dark);
+}
+
+.dark .unread-icon {
+  background: var(--icon-accent-dark);
+}
+
+.dark .checkbox {
+  background: none;
+  border-color: rgba(255, 255, 255, 0.16);
+}

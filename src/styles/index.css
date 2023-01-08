@@ -46,12 +46,12 @@ a {
   cursor: pointer;
 }
 
-use {
-  fill: var(--text-sidebar);
-}
-
 svg path {
   fill: inherit;
+}
+
+use {
+  fill: var(--text-sidebar);
 }
 
 .nav-btn:hover {
@@ -60,6 +60,7 @@ svg path {
 
 .nav-btn.active {
   background: var(--transparent-active);
+  font-weight: 700;
 }
 
 #btn-compose,

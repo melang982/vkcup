@@ -8,7 +8,6 @@ class LetterList extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log("connectedCallback letterlist");
     const observer = new IntersectionObserver( //бесконечный скролл
       (entries) => {
         if (entries[0].isIntersecting === true) {
@@ -29,6 +28,7 @@ class LetterList extends HTMLElement {
         this.appendChild(comp);
       }
       this.nextCursor = jsonData.nextCursor;
+
       observer.observe(document.querySelector("#infinite-scroll"));
     };
 

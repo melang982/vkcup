@@ -22,12 +22,21 @@ const setLocale = async (newLocale) => {
   if (newLocale === locale) return;
   const newTranslations = await fetchTranslationsFor(newLocale);
   locale = newLocale;
+  const flagEl = document.getElementById("settings__flag");
+
+  flagEl.setAttribute("src", locale === "ru" ? "/icons/ru.svg" : "/icons/usa.svg");
+  flagEl.setAttribute("alt", locale === "ru" ? "Russia flag" : "USA flag");
   translations = newTranslations;
   translatePage();
 };
 
 const initI18n = () => {
   document.addEventListener("DOMContentLoaded", setLocale(defaultLocale));
+
+  document.getElementById("language-form").onsubmit = (e) => {
+    e.preventDefault();
+    setLocale(e.target.elements.language.value);
+  };
 };
 
-export { initI18n, translateElement };
+export { initI18n };

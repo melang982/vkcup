@@ -1,4 +1,17 @@
 {
+  "inbox": "Inbox",
+  "important": "Important",
+  "sent": "Sent",
+  "drafts": "Drafts",
+  "archive": "Archive",
+  "spam": "Spam",
+  "trash": "Trash",
   "compose": "Compose",
-  "settings": "Settings"
+  "settings": "Settings",
+  "new-folder": "New folder",
+  "appearance": "Interface",
+  "appearance-description": "Customize the appearance and design theme of your email",
+  "change-language": "Switch Language",
+  "choose-language": "Switch",
+  "current-language": "Language: English"
 }

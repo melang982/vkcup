@@ -6,9 +6,9 @@
   bottom: 22px;
 }
 
-#settings__popup {
-  display: none;
-  position: absolute;
+#settings__drawer {
+  position: fixed;
+  display: flex;
   gap: 1px;
   left: 0;
   right: 0;
@@ -17,6 +17,13 @@
   background: #dadce0;
   box-shadow: 0px -3px 48px rgb(0 16 61 / 28%);
   z-index: 1;
+  transform: translateY(100%);
+}
+
+#settings__drawer.open {
+  display: flex;
+  transform: translateY(0%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #settings__buttons {
@@ -26,15 +33,16 @@
   gap: 8px;
 }
 
-#settings__popup button {
-  display: block;
-  width: 223px;
+#settings__buttons button {
+  display: flex;
+  align-items: center;
+  width: 207px;
   height: 40px;
-
+  padding-left: 16px;
   border-radius: 8px;
 }
 
-#settings__popup div {
+#settings__drawer div {
   background: var(--white);
 }
 
@@ -42,7 +50,41 @@
   display: none;
 }
 
+#settings__language label {
+  display: block;
+  cursor: pointer;
+}
+
 #settings__language,
 #settings__theme {
   flex-grow: 1;
+  padding: 26px 0 0 32px;
+}
+
+#theme__colors {
+  display: grid;
+  grid-template-columns: repeat(8, 67.5px);
+  grid-auto-rows: 40px;
+  row-gap: 20px;
+  column-gap: 16px;
+}
+
+.theme__color {
+  /*width: 67.5px;*/
+  height: 40px;
+}
+
+#btn-apply-language {
+  display: flex;
+  align-items: center;
+  margin-top: 32px;
+  padding: 0 20px;
+  height: 36px;
+  color: var(--white);
+  background: var(--icon-accent);
+  border-radius: 8px;
+}
+
+#btn-apply-language:active {
+  opacity: 0.7;
 }

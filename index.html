@@ -8,7 +8,7 @@
   </head>
   <body>
     <div id="wrap">
-      <header>
+      <header id="header">
         <a href="/" data-link><svg-icon name="logo" width="96" height="32" /></a>
       </header>
       <div class="columns">
@@ -28,13 +28,39 @@
         <use href="/icons/gear.svg#id"></use>
       </svg>
     </button>
-    <div id="settings__popup">
+    <div id="settings__drawer">
       <div id="settings__buttons">
-        <button id="settings__btn-theme" class="nav-btn" active data-i18n-key="appearance"></button>
-        <button id="settings__btn-language" class="nav-btn">Язык: русский</button>
+        <button
+          id="settings__btn-theme"
+          class="nav-btn active"
+          active
+          data-i18n-key="appearance"
+        ></button>
+        <button id="settings__btn-language" class="nav-btn">
+          <span data-i18n-key="current-language"></span>
+          <img id="settings__flag" src="/icons/ru.svg" alt="Russia flag" />
+        </button>
       </div>
-      <div id="settings__theme" data-i18n-key="appearance-description"></div>
-      <div id="settings__language" data-i18n-key="change-language"></div>
+      <div id="settings__theme">
+        <span data-i18n-key="appearance-description"></span>
+        <div id="theme__colors"></div>
+      </div>
+      <div id="settings__language">
+        <div data-i18n-key="change-language"></div>
+        <form id="language-form">
+          <label>
+            <input type="radio" name="language" value="ru" checked />
+            <img src="/icons/ru.svg" alt="Russia flag" />
+            Русский
+          </label>
+          <label>
+            <input type="radio" name="language" value="en" />
+            <img src="/icons/usa.svg" alt="USA flag" />
+            English
+          </label>
+          <button id="btn-apply-language" data-i18n-key="choose-language"></button>
+        </form>
+      </div>
     </div>
     <script type="module" src="/src/index.js"></script>
   </body>
