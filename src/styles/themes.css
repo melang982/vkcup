@@ -12,12 +12,8 @@
   --text-link-dark: #589bff;
 }
 
-.dark {
-  color: var(--text-primary-dark);
-}
-
-.dark .wrap {
-  background: var(--background-dark);
+.color-theme-dark #nav .nav-btn {
+  color: var(--white);
 }
 
 .color-theme header:before {
@@ -36,12 +32,46 @@
   fill: var(--white);
 }
 
-.dark .nav-btn:hover {
-  background: var(--transparent-hover-dark);
+.color-theme .nav-btn.active {
+  background: rgba(255, 255, 255, 0.24);
 }
 
-.dark .nav-btn.active {
-  background: var(--transparent-active-dark);
+.color-theme-dark use {
+  fill: var(--white);
+}
+
+.anime {
+  background: linear-gradient(180deg, rgba(117, 0, 69, 0.64) 0%, rgba(0, 9, 83, 0.64) 100%),
+    url(anime.png), #ffffff;
+  background-repeat: repeat;
+  background-position: 50% 0;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+.anime header {
+  background: #6b1344;
+}
+
+@media (min-width: 1441px), (min-height: 901px) {
+  .anime {
+    background-size: 1680px 1050px;
+  }
+
+  @media (min-width: 1681px), (min-height: 1051px) {
+    .anime {
+      background-size: 1920px 1200px;
+    }
+  }
+}
+
+.dark {
+  color: var(--text-primary-dark);
+  background: var(--background-dark);
+}
+
+.dark .nav-btn:hover {
+  background: var(--transparent-hover-dark);
 }
 
 .dark .folder {
@@ -66,8 +96,7 @@
 }
 
 .dark header,
-.dark letter-list,
-.dark letter-item > a {
+.dark letter-list {
   background: var(--letter-background-dark);
 }
 

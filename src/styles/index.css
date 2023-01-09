@@ -2,6 +2,7 @@
   --background: #f6f7f8;
   --transparent-hover: rgba(0, 16, 61, 0.04);
   --transparent-active: rgba(0, 16, 61, 0.08);
+  --separator: rgba(0, 16, 61, 0.12);
   --text-secondary: #87898f;
   --white: #fff;
   --icon-accent: #005ff9;
@@ -9,7 +10,6 @@
   --text-primary: #2c2d2e;
   --text-sidebar: #333333;
   --text-link: #005bd1;
-  --separator: rgba(0, 16, 61, 0.12);
 }
 
 body {
@@ -98,6 +98,10 @@ header {
   padding: 0 16px;
   margin-bottom: 12px;
   filter: drop-shadow(0px 0px 16px rgba(2, 13, 41, 0.12));
+}
+
+header use {
+  fill: var(--icon-accent);
 }
 
 header,

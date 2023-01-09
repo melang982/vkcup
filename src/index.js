@@ -65,8 +65,8 @@ document.addEventListener("click", () => {
 });
 
 //Theme:
-console.time("Execution Time");
-const themeColors = [
+
+const themeColorsDark = [
   "#4A352F",
   "#424242",
   "#5A355A",
@@ -75,18 +75,54 @@ const themeColors = [
   "#E73672",
   "#F44336",
   "#388E3C",
+];
+
+const themeColorsLight = [
   "#81D8D0",
   "#E2DCD2",
   "#FFEBCD",
+  "#E7EED2",
+  "#D0F0F7",
+  "#C9D0FB",
+  "#DDF3FF",
+  "#F0F0F0",
 ];
 
-/*document.getElementById("theme__colors").innerHTML += themeColors
-  .map((c) => `<div style="background:${c}"></div>`)
-  .join("");*/
-//for (let color of themeColors) {
-//  document.createElement('div');
-//}
-console.timeEnd("Execution Time");
-document.getElementById("wrap").className = "color-theme";
-document.body.style.background = "#E2DCD2";
-document.getElementById("header").style.background = "#E2DCD2";
+const setTheme = (newTheme) => {
+  document.body.className = "";
+  document.body.style.background = null;
+  document.getElementById("wrap").className = "";
+  document.getElementById("header").style.background = null;
+
+  switch (newTheme) {
+    case "dark":
+      document.body.className = "dark";
+      break;
+    case "default":
+      break;
+    case "anime":
+      document.body.className = "anime";
+      document.getElementById("wrap").className = "color-theme-dark";
+      break;
+    default:
+      const isDark = themeColorsDark.includes(newTheme);
+      document.getElementById("wrap").className =
+        "color-theme" + (isDark ? " color-theme-dark" : "");
+      document.body.style.background = newTheme;
+      document.getElementById("header").style.background = newTheme;
+  }
+};
+
+const colorsGrid = document.getElementById("themes__colors");
+themeColorsDark.concat(themeColorsLight).forEach((color) => {
+  const el = document.createElement("input");
+  el.type = "radio";
+  el.name = "theme";
+  el.value = color;
+  el.style = `background: ${color}`;
+  colorsGrid.appendChild(el);
+});
+
+document
+  .querySelectorAll("input[name='theme']")
+  .forEach((el) => el.addEventListener("change", () => setTheme(el.value)));

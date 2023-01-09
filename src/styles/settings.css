@@ -61,7 +61,7 @@
   padding: 26px 0 0 32px;
 }
 
-#theme__colors {
+#themes__colors {
   display: grid;
   grid-template-columns: repeat(8, 67.5px);
   grid-auto-rows: 40px;
@@ -69,9 +69,63 @@
   column-gap: 16px;
 }
 
-.theme__color {
-  /*width: 67.5px;*/
-  height: 40px;
+#themes__main {
+  display: flex;
+  height: 88px;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+#settings__theme input {
+  all: unset;
+  position: relative;
+  cursor: pointer;
+}
+
+#themes__main > input {
+  width: 120px;
+}
+
+#settings__theme input[value="dark"] {
+  background: #000;
+}
+
+#settings__theme input[value="default"] {
+  background: var(--white);
+}
+
+#settings__theme input[value="dark"]:before,
+#settings__theme input[value="default"]:before {
+  content: url(/icons/logo.svg);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+}
+
+#settings__theme input[value="anime"] {
+  background-image: -webkit-image-set(url(/anime-thumb.png) 1x, url(/anime-thumb2x.png) 2x);
+}
+
+#settings__theme input:checked:after {
+  content: url(/icons/checkmark.svg);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--separator);
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+}
+
+#themes__main input:checked:after {
+  background-color: rgba(0, 95, 249, 0.48);
 }
 
 #btn-apply-language {
