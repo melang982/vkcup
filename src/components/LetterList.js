@@ -21,12 +21,14 @@ class LetterList extends HTMLElement {
     const folderSlug = this.getAttribute("folderSlug");
 
     const addItems = (jsonData) => {
+      console.time("Execution Time");
       for (let item of jsonData.data) {
         const comp = document.createElement("letter-item");
         comp.setAttribute("folderSlug", folderSlug);
         comp.item = item;
         this.appendChild(comp);
       }
+      console.timeEnd("Execution Time");
       this.nextCursor = jsonData.nextCursor;
 
       observer.observe(document.querySelector("#infinite-scroll"));

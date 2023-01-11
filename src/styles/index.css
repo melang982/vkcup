@@ -3,6 +3,7 @@
   --transparent-hover: rgba(0, 16, 61, 0.04);
   --transparent-active: rgba(0, 16, 61, 0.08);
   --separator: rgba(0, 16, 61, 0.12);
+  --shadow: rgba(0, 16, 61, 0.24);
   --text-secondary: #87898f;
   --white: #fff;
   --icon-accent: #005ff9;
@@ -51,7 +52,7 @@ a {
   position: absolute;
   padding: 8px 0;
   background: var(--white);
-  box-shadow: 0px 4px 32px rgba(0, 16, 61, 0.16);
+  box-shadow: 0px 4px 32px var(--separator);
   border-radius: 12px;
   z-index: 1;
 }
@@ -75,6 +76,7 @@ a {
   height: fit-content;
   margin: auto;
   padding: 8px 0;
+  box-shadow: 0px 4px 32px var(--shadow);
 }
 
 .attachment {
@@ -101,6 +103,7 @@ a {
   top: 0;
   left: -268px;
   padding: 4px;
+  box-shadow: inherit;
 }
 
 #attach__preview img {
@@ -206,9 +209,10 @@ letter-item > a {
   white-space: nowrap;
   height: 48px;
   border-radius: 12px;
+  padding-left: 28px;
 }
 
-[data-link] > *:not(.btn-attach) {
+[data-link] > *:not(.btn-attach):not(input) {
   pointer-events: none;
 }
 
@@ -219,13 +223,65 @@ letter-item > a {
   background: var(--icon-accent);
 }
 
-.letter-item .unread-dot {
+letter-item .unread-dot {
   position: absolute;
   left: 11px;
 }
 
-.unread-dot-gray {
+letter-item > a:hover .unread-dot {
   background: var(--icon-secondary);
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+letter-item input[type="checkbox"] {
+  all: unset;
+  width: 16px;
+  height: 16px;
+  margin: 0 8px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid var(--separator);
+  display: none;
+  position: relative;
+}
+
+letter-item input[type="checkbox"]:checked {
+  background: var(--icon-accent);
+}
+
+letter-item input[type="checkbox"]:checked::after {
+  content: url(/icons/check.svg);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: -1px;
+  left: 0px;
+}
+
+letter-item [name="bookmark_outline"] {
+  display: none;
+}
+
+letter-item > a:hover input {
+  display: block;
+}
+letter-item > a:hover [name="bookmark_outline"] {
+  display: inline;
+}
+
+letter-item > a:hover user-avatar {
+  display: none;
+}
+
+letter-item > a:hover [name="bookmark"] {
+  display: none;
 }
 
 .unread .letter-item__sender,
@@ -234,6 +290,7 @@ letter-item > a {
 }
 
 .letter-item__sender {
+  margin-left: 10px;
   width: 200px;
 }
 
@@ -256,22 +313,16 @@ letter-item > a {
   text-overflow: ellipsis;
 }
 
-letter-item .avatar__wrapper {
-  margin: 0 10px 0 28px;
-}
-
-.avatar__wrapper {
-  width: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .avatar {
   width: 32px;
   height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  color: #874dd6;
+  background: #d3b3ff;
   border-radius: 100%;
-  background: var(--text-secondary);
 }
 
 @media only screen and (min-width: 769px) {

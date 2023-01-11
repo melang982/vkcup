@@ -16,26 +16,19 @@ class LetterItem extends HTMLElement {
   }
 
   connectedCallback() {
-    const link = addChild(
-      this,
-      "a",
-      "letter-item nav-btn" + (this.item.read ? "" : " unread"),
-      null,
-      {
-        href: `/${this.getAttribute("folderSlug")}/${this.item.id}`,
-        "data-link": "", //used for SPA routing
-      }
-    );
+    const link = addChild(this, "a", "nav-btn" + (this.item.read ? "" : " unread"), null, {
+      href: `/${this.getAttribute("folderSlug")}/${this.item.id}`,
+      "data-link": "", //used for SPA routing
+    });
 
     if (!this.item.read) addChild(link, "div", "unread-dot");
 
-    addChild(
-      link,
-      "user-avatar",
-      null,
-      null,
-      this.item.author.avatar && { src: this.item.author.avatar }
-    );
+    const avatar = document.createElement("user-avatar");
+    if (this.item.author.avatar) avatar.setAttribute("src", this.item.author.avatar);
+    else if (this.item.author.name)
+      avatar.setAttribute("initials", this.item.author.name.charAt(0));
+    link.appendChild(avatar);
+    addChild(link, "input", null, null, { type: "checkbox" });
 
     addChild(
       link,
@@ -45,7 +38,10 @@ class LetterItem extends HTMLElement {
     );
 
     const icons = addChild(link, "span", "letter-item__icons");
-    if (this.item.bookmark) addChild(icons, "svg-icon", null, null, { name: "bookmark" });
+    if (this.item.bookmark) {
+      addChild(icons, "svg-icon", null, null, { name: "bookmark" });
+      addChild(icons, "svg-icon", null, null, { name: "bookmark_outline" });
+    }
     if (this.item.important) addChild(icons, "svg-icon", null, null, { name: "exclamation" });
 
     const content = addChild(link, "span", "letter-item__content");
