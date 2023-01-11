@@ -13,5 +13,10 @@
   "appearance-description": "Customize the appearance and design theme of your email",
   "change-language": "Switch Language",
   "choose-language": "Switch",
-  "current-language": "Language: English"
+  "current-language": "Language: English",
+  "filter": "Filter",
+  "all": "All messages",
+  "unread": "Unread",
+  "flagged": "Flagged",
+  "with-attachments": "With attachments"
 }

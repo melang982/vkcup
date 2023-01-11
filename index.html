@@ -9,25 +9,57 @@
   <body>
     <div id="wrap">
       <header id="header">
-        <a href="/" data-link><svg-icon name="logo" width="96" height="32" /></a>
+        <a href="/" data-link><svg-icon name="logo" width="96" height="32"></svg-icon></a>
+        <button id="btn-filter">
+          <span data-i18n-key="filter"></span>
+          <svg-icon name="chevron_down"></svg-icon>
+        </button>
       </header>
       <div class="columns">
         <nav id="nav">
           <button id="btn-compose" data-i18n-key="compose"></button>
           <div id="folders"></div>
           <hr />
-          <button id="btn-new-folder" data-i18n-key="new-folder">
-            <svg-icon name="add" />
+          <button id="btn-new-folder">
+            <svg-icon name="add" width="16" height="16"></svg-icon>
+            <span data-i18n-key="new-folder"></span>
           </button>
         </nav>
         <div id="app"></div>
       </div>
     </div>
-    <button id="btn-settings" data-i18n-key="settings">
-      <svg width="20" height="20" viewBox="0 0 20 20">
-        <use href="/icons/gear.svg#id"></use>
-      </svg>
+    <button id="btn-settings">
+      <svg-icon name="gear"></svg-icon>
+      <span data-i18n-key="settings"></span>
     </button>
+    <div id="attach__popup" class="popup">
+      <div class="attachment"><img srcset="/temp-small.png 2x" />image_4.jpg 1.26 MB</div>
+      <div id="attach__preview" class="popup"><img srcset="/temp-big.png 2x" /></div>
+    </div>
+    <div id="filter__popup" class="popup">
+      <form id="filter__form">
+        <label for="all">
+          <input id="all" type="checkbox" name="filter" value="all" />
+          <span data-i18n-key="all"></span>
+        </label>
+        <label for="unread">
+          <input id="unread" type="checkbox" name="filter" value="unread" />
+          <span class="unread-dot"></span>
+          <span data-i18n-key="unread"></span>
+        </label>
+        <label for="flagged">
+          <input id="flagged" type="checkbox" name="filter" value="flagged" />
+          <svg-icon name="bookmark"></svg-icon>
+          <span data-i18n-key="flagged"></span>
+        </label>
+        <label for="with-attachments">
+          <input id="with-attachments" type="checkbox" name="filter" value="with-attachments" />
+          <svg-icon name="attach"></svg-icon>
+          <span data-i18n-key="with-attachments"></span>
+        </label>
+      </form>
+      <button id="btn-reset-filter" data-i18n-key="reset-filter"></button>
+    </div>
     <div id="settings__drawer">
       <div id="settings__buttons">
         <button

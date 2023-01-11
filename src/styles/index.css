@@ -46,6 +46,67 @@ a {
   cursor: pointer;
 }
 
+.popup {
+  display: none;
+  position: absolute;
+  padding: 8px 0;
+  background: var(--white);
+  box-shadow: 0px 4px 32px rgba(0, 16, 61, 0.16);
+  border-radius: 12px;
+  z-index: 1;
+}
+
+.btn-attach {
+  position: relative;
+  height: 24px;
+  border-radius: 8px;
+}
+
+.btn-attach:hover,
+.btn-attach.active {
+  background: var(--transparent-active);
+}
+
+#attach__popup {
+  width: 298px;
+  right: 28px;
+  top: 0;
+  bottom: 0;
+  height: fit-content;
+  margin: auto;
+  padding: 8px 0;
+}
+
+.attachment {
+  padding-left: 12px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.attachment img {
+  margin-right: 8px;
+}
+
+.attachment:hover {
+  background: var(--transparent-hover);
+}
+
+.attachment:hover + #attach__preview {
+  display: block;
+}
+
+#attach__preview {
+  position: absolute;
+  top: 0;
+  left: -268px;
+  padding: 4px;
+}
+
+#attach__preview img {
+  display: block;
+}
+
 svg path {
   fill: inherit;
 }
@@ -147,23 +208,23 @@ letter-item > a {
   border-radius: 12px;
 }
 
-[data-link] > * {
+[data-link] > *:not(.btn-attach) {
   pointer-events: none;
 }
 
-.unread-icon {
+.unread-dot {
   width: 6px;
   height: 6px;
   border-radius: 100%;
   background: var(--icon-accent);
 }
 
-.letter-item .unread-icon {
+.letter-item .unread-dot {
   position: absolute;
   left: 11px;
 }
 
-.unread-icon-gray {
+.unread-dot-gray {
   background: var(--icon-secondary);
 }
 

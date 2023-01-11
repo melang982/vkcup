@@ -27,7 +27,7 @@ class LetterItem extends HTMLElement {
       }
     );
 
-    if (!this.item.read) addChild(link, "div", "unread-icon");
+    if (!this.item.read) addChild(link, "div", "unread-dot");
 
     addChild(
       link,
@@ -57,6 +57,20 @@ class LetterItem extends HTMLElement {
         src: `/icons/categories/${categories.get(this.item.flag)}.svg`,
         alt: categories.get(this.item.flag) + " icon",
       });
+
+    if (this.item.doc) {
+      const attachButton = addChild(link, "button", "btn-attach", null);
+      addChild(attachButton, "svg-icon", null, null, { name: "attach", width: "24", height: "24" });
+      attachButton.addEventListener("click", (e) => {
+        document.querySelectorAll(".btn-attach").forEach((btn) => btn.classList.remove("active"));
+        const popup = document.getElementById("attach__popup");
+        popup.style.display = "block";
+        attachButton.appendChild(popup);
+        attachButton.classList.add("active");
+        e.stopPropagation(); //не закрываем попап
+        e.preventDefault(); //не открываем письмо
+      });
+    }
   }
 }
 

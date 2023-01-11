@@ -1,7 +1,8 @@
 import "./styles/index.css";
 import "./styles/settings.css";
 import "./styles/themes.css";
-import initRouter from "./router";
+import "./styles/filter.css";
+import { initRouter, navigateTo } from "./router";
 import { initI18n } from "./i18n";
 import "./components/SvgIcon";
 
@@ -20,7 +21,7 @@ for (let folder of folders) {
 }
 wrapper.innerHTML = foldersHtml;
 
-//Settings drawer menu:
+//Настройки:
 let isSettingsOpen = false;
 
 const settingsDrawer = document.getElementById("settings__drawer");
@@ -60,12 +61,8 @@ languageButton.addEventListener("click", () => toggleTab(false));
 settingsDrawer.addEventListener("click", (e) => {
   e.stopPropagation();
 });
-document.addEventListener("click", () => {
-  if (isSettingsOpen) toggleDrawer(false);
-});
 
-//Theme:
-
+//Темы:
 const themeColorsDark = [
   "#4A352F",
   "#424242",
@@ -126,3 +123,76 @@ themeColorsDark.concat(themeColorsLight).forEach((color) => {
 document
   .querySelectorAll("input[name='theme']")
   .forEach((el) => el.addEventListener("change", () => setTheme(el.value)));
+
+//Фильтр - попап:
+let isFilterOpen = false;
+const filterPopup = document.getElementById("filter__popup");
+
+const toggleFilterPopup = () => {
+  isFilterOpen = !isFilterOpen;
+  filterPopup.style.display = isFilterOpen ? "block" : "none";
+};
+
+document.getElementById("btn-filter").addEventListener("click", (e) => {
+  toggleFilterPopup();
+  e.stopPropagation();
+});
+
+filterPopup.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+
+// Закрываем все попапы:
+document.addEventListener("click", () => {
+  if (isFilterOpen) toggleFilterPopup();
+  if (isSettingsOpen) toggleDrawer(false);
+  document.getElementById("attach__popup").style.display = "none";
+  document.querySelectorAll(".btn-attach").forEach((btn) => btn.classList.remove("active"));
+});
+
+// Фильтр - чекбоксы:
+
+const filterCheckboxes = document.querySelectorAll("input[name='filter']");
+const resetBtn = document.getElementById("btn-reset-filter");
+
+const addFiltersToUrl = () => {
+  const url = new URL(window.location);
+
+  filterCheckboxes.forEach((checkbox) => {
+    if (checkbox.value !== "all") {
+      const paramName = `filter_${checkbox.value.replace("-", "_")}`;
+      if (checkbox.checked) url.searchParams.set(paramName, "1");
+      else url.searchParams.delete(paramName);
+    }
+  });
+
+  navigateTo(url);
+};
+
+resetBtn.addEventListener("click", (e) => {
+  filterCheckboxes.forEach((el) => {
+    if (el.value == "all") el.checked = true;
+    else el.checked = false;
+  });
+  addFiltersToUrl();
+});
+
+filterCheckboxes.forEach((el) => {
+  el.addEventListener("click", (e) => {
+    if (e.target.value === "all" && !e.target.checked) e.preventDefault(); //запрещаем убирать галку со "Все"
+  });
+
+  el.addEventListener("change", (e) => {
+    const elements = e.target.form.elements;
+    const filters = [elements.unread, elements["flagged"], elements["with-attachments"]];
+    if (e.target.value === "all") filters.forEach((checkbox) => (checkbox.checked = false));
+    else if (e.target.checked) {
+      elements.all.checked = false;
+      resetBtn.style.display = "block";
+    } else if (!filters.find((checkbox) => checkbox.checked)) {
+      elements.all.checked = true;
+      resetBtn.style.display = "none";
+    }
+    addFiltersToUrl();
+  });
+});

@@ -41,11 +41,26 @@ const router = async () => {
 
   document.querySelector("#app").innerHTML = await view.getHtml();
 
+  //highlight active link:
   const links = document.querySelectorAll("#folders [data-link]");
   for (let link of links) {
     if (link.href == document.URL) link.classList.add("active");
     else link.classList.remove("active");
   }
+
+  //set filter checkmarks from url:
+  const queryString = window.location.search;
+  const params = new URLSearchParams(queryString);
+  let found = false;
+
+  document.querySelectorAll("input[name='filter']").forEach((el) => {
+    if (params.get(`filter_${el.value.replace("-", "_")}`)) {
+      el.checked = true;
+      found = true;
+    } else el.checked = false;
+  });
+  if (found) document.getElementById("btn-reset-filter").style.display = "block";
+  else document.querySelector("input[value='all']").checked = true;
 };
 
 const initRouter = () => {
@@ -59,10 +74,10 @@ const initRouter = () => {
         e.preventDefault();
         navigateTo(e.target.href);
       }
-      e.preventDefault();
+      //e.preventDefault();
     });
     router();
   });
 };
 
-export default initRouter;
+export { initRouter, navigateTo };

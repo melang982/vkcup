@@ -13,5 +13,11 @@
   "appearance-description": "Настройки внешнего вида вашей почты и темы оформления",
   "change-language": "Изменить язык",
   "choose-language": "Выбрать язык",
-  "current-language": "Язык: Русский"
+  "current-language": "Язык: Русский",
+  "filter": "Фильтр",
+  "all": "Все письма",
+  "unread": "Непрочитанные",
+  "flagged": "С флажком",
+  "with-attachments": "С вложениями",
+  "reset-filter": "Сбросить всё"
 }

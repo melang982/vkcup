@@ -13,7 +13,14 @@ const getWithCache = (url) => {
   });
 };
 
-const getLetters = (folderSlug, cursor = 0) => getWithCache(`/api/${folderSlug}?cursor=${cursor}`);
+const getLetters = (folderSlug, cursor = 0) => {
+  const queryString = window.location.search;
+  const params = new URLSearchParams(queryString);
+  params.append("cursor", cursor);
+  const paramsString = params.toString();
+
+  return getWithCache(`/api/${folderSlug}?${paramsString}`);
+};
 
 const getSingleLetter = (id) => getWithCache(`/api/mail/${id}`);
 
