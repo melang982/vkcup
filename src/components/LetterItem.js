@@ -1,5 +1,5 @@
 import "./UserAvatar";
-import { addChild } from "../utils";
+import { addChild, formatDate } from "../utils";
 
 const categories = new Map([
   ["Заказы", "shopping"],
@@ -21,7 +21,10 @@ class LetterItem extends HTMLElement {
       "data-link": "", //used for SPA routing
     });
 
-    if (!this.item.read) addChild(link, "div", "unread-dot");
+    const dot = addChild(link, "button", "unread-dot");
+    addChild(dot, "div");
+
+    dot.addEventListener("click", (e) => e.preventDefault()); //не открываем письмо
 
     const avatar = document.createElement("user-avatar");
     if (this.item.author.avatar) avatar.setAttribute("src", this.item.author.avatar);
@@ -38,12 +41,11 @@ class LetterItem extends HTMLElement {
     );
 
     const icons = addChild(link, "span", "letter-item__icons");
-    if (this.item.bookmark) {
-      addChild(icons, "svg-icon", null, null, { name: "bookmark" });
+    if (this.item.bookmark) addChild(icons, "svg-icon", null, null, { name: "bookmark" });
+    else {
       addChild(icons, "svg-icon", null, null, { name: "bookmark_outline" });
+      if (this.item.important) addChild(icons, "svg-icon", null, null, { name: "exclamation" });
     }
-    if (this.item.important) addChild(icons, "svg-icon", null, null, { name: "exclamation" });
-
     const content = addChild(link, "span", "letter-item__content");
     addChild(content, "span", "letter-item__title", this.item.title);
     addChild(content, "span", "letter-item__text", this.item.text);
@@ -67,6 +69,8 @@ class LetterItem extends HTMLElement {
         e.preventDefault(); //не открываем письмо
       });
     }
+
+    addChild(link, "span", "letter-item__date footnote", formatDate(this.item.date));
   }
 }
 

@@ -212,24 +212,40 @@ letter-item > a {
   padding-left: 28px;
 }
 
-[data-link] > *:not(.btn-attach):not(input) {
+[data-link] > *:not(button):not(input) {
   pointer-events: none;
 }
 
 .unread-dot {
+  display: none;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.unread-dot div {
   width: 6px;
   height: 6px;
   border-radius: 100%;
+  background: var(--icon-secondary);
+}
+
+.unread .unread-dot {
+  display: flex;
+}
+
+.unread .unread-dot div {
   background: var(--icon-accent);
 }
 
 letter-item .unread-dot {
   position: absolute;
-  left: 11px;
+  left: 6px;
 }
 
 letter-item > a:hover .unread-dot {
-  background: var(--icon-secondary);
+  display: flex;
 }
 
 input[type="checkbox"] {
@@ -280,7 +296,7 @@ letter-item > a:hover user-avatar {
   display: none;
 }
 
-letter-item > a:hover [name="bookmark"] {
+letter-item > a:hover [name="exclamation"] {
   display: none;
 }
 
