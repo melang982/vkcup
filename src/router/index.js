@@ -15,6 +15,7 @@ const getParams = (match) => {
 };
 
 const navigateTo = (url) => {
+  document.body.appendChild(document.getElementById("attach__popup")); //чтобы его не удалило с письмами
   history.pushState(null, null, url);
   router();
 };

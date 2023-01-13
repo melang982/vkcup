@@ -1,5 +1,6 @@
 import "./UserAvatar";
-import { addChild, formatDate } from "../utils";
+import { addChild } from "../utils";
+import { formatDate } from "../i18n";
 
 const categories = new Map([
   ["Заказы", "shopping"],
@@ -16,13 +17,13 @@ class LetterItem extends HTMLElement {
   }
 
   connectedCallback() {
-    const link = addChild(this, "a", "nav-btn" + (this.item.read ? "" : " unread"), null, {
+    const link = addChild(this, "a", this.item.read ? "" : " unread", null, {
       href: `/${this.getAttribute("folderSlug")}/${this.item.id}`,
       "data-link": "", //used for SPA routing
     });
 
-    const dot = addChild(link, "button", "unread-dot");
-    addChild(dot, "div");
+    const dot = addChild(link, "button", "unread-dot__wrapper");
+    addChild(dot, "div", "unread-dot");
 
     dot.addEventListener("click", (e) => e.preventDefault()); //не открываем письмо
 
@@ -59,18 +60,25 @@ class LetterItem extends HTMLElement {
     if (this.item.doc) {
       const attachButton = addChild(link, "button", "btn-attach", null);
       addChild(attachButton, "svg-icon", null, null, { name: "attach", width: "24", height: "24" });
+
       attachButton.addEventListener("click", (e) => {
-        document.querySelectorAll(".btn-attach").forEach((btn) => btn.classList.remove("active"));
+        //попап с вложениями:
+        document.querySelectorAll("letter-item").forEach((btn) => btn.classList.remove("active"));
         const popup = document.getElementById("attach__popup");
+        popup
+          .querySelectorAll("img")
+          .forEach((img) => img.setAttribute("src", `/attachments/${this.item.id}.jpg`));
         popup.style.display = "block";
         attachButton.appendChild(popup);
-        attachButton.classList.add("active");
+        this.classList.add("active");
         e.stopPropagation(); //не закрываем попап
         e.preventDefault(); //не открываем письмо
       });
     }
 
-    addChild(link, "span", "letter-item__date footnote", formatDate(this.item.date));
+    addChild(link, "span", "letter-item__date footnote", formatDate(this.item.date), {
+      "data-i18n-date": this.item.date,
+    });
   }
 }
 

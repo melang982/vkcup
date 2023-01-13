@@ -18,5 +18,7 @@
   "all": "All messages",
   "unread": "Unread",
   "flagged": "Flagged",
-  "with-attachments": "With attachments"
+  "with-attachments": "With attachments",
+  "to": "To: you",
+  "recipient": ["recipient", "recipients", "recipients"]
 }

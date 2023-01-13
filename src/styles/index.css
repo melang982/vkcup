@@ -64,7 +64,7 @@ a {
 }
 
 .btn-attach:hover,
-.btn-attach.active {
+.active .btn-attach {
   background: var(--transparent-active);
 }
 
@@ -87,7 +87,11 @@ a {
 }
 
 .attachment img {
+  width: 32px;
+  height: 32px;
   margin-right: 8px;
+  border-radius: 4px;
+  object-fit: cover;
 }
 
 .attachment:hover {
@@ -108,6 +112,10 @@ a {
 
 #attach__preview img {
   display: block;
+  width: 256px;
+  height: 190px;
+  border-radius: 12px;
+  object-fit: cover;
 }
 
 svg path {
@@ -118,12 +126,17 @@ use {
   fill: var(--text-sidebar);
 }
 
-.nav-btn:hover {
+.nav-btn:hover,
+letter-item > a:hover {
   background: var(--transparent-hover);
 }
 
-.nav-btn.active {
+.nav-btn.active,
+letter-item.active > a {
   background: var(--transparent-active);
+}
+
+.nav-btn.active {
   font-weight: 700;
 }
 
@@ -212,11 +225,29 @@ letter-item > a {
   padding-left: 28px;
 }
 
+letter-list letter-item:first-child > a::after,
+letter-item:hover > a:after,
+letter-item:hover + letter-item > a::after,
+letter-item.active > a:after,
+letter-item.active + letter-item > a::after {
+  display: none;
+}
+
+letter-item > a::after {
+  position: absolute;
+  content: "";
+  height: 1px;
+  top: 0;
+  left: 71px;
+  right: 12px;
+  background: var(--separator);
+}
+
 [data-link] > *:not(button):not(input) {
   pointer-events: none;
 }
 
-.unread-dot {
+.unread-dot__wrapper {
   display: none;
   width: 16px;
   height: 16px;
@@ -224,27 +255,27 @@ letter-item > a {
   justify-content: center;
 }
 
-.unread-dot div {
+.unread-dot {
   width: 6px;
   height: 6px;
   border-radius: 100%;
   background: var(--icon-secondary);
 }
 
-.unread .unread-dot {
+.unread .unread-dot__wrapper {
   display: flex;
 }
 
-.unread .unread-dot div {
+.unread .unread-dot {
   background: var(--icon-accent);
 }
 
-letter-item .unread-dot {
+letter-item .unread-dot__wrapper {
   position: absolute;
   left: 6px;
 }
 
-letter-item > a:hover .unread-dot {
+letter-item > a:hover .unread-dot__wrapper {
   display: flex;
 }
 
@@ -339,6 +370,33 @@ letter-item > a:hover [name="exclamation"] {
   color: #874dd6;
   background: #d3b3ff;
   border-radius: 100%;
+}
+
+single-letter {
+  display: block;
+  position: relative;
+  padding: 0 32px 32px;
+}
+
+.letter__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+single-letter .unread-dot {
+  position: absolute;
+  left: -19px;
+  background: var(--icon-accent);
+}
+
+.letter__header .avatar {
+  margin-right: 12px;
+}
+
+.letter__header span {
+  margin-left: 8px;
 }
 
 @media only screen and (min-width: 769px) {
