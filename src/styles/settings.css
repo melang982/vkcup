@@ -7,6 +7,14 @@
   color: var(--sidebar-text-primary);
 }
 
+#btn-settings svg-icon {
+  margin-right: 8px;
+}
+
+#btn-settings use {
+  fill: var(--sidebar-text-primary);
+}
+
 #settings__drawer {
   position: fixed;
   display: flex;
@@ -89,7 +97,7 @@
   height: 100%;
 }
 
-input[value="anime"] {
+#settings__theme input[value="anime"] {
   background-image: -webkit-image-set(url(/anime-thumb.png) 1x, url(/anime-thumb2x.png) 2x);
 }
 
@@ -157,4 +165,35 @@ label[for="dark"] use {
 
 #btn-apply-language:active {
   opacity: 0.7;
+}
+
+#language-form input[type="radio"] {
+  all: unset;
+  display: inline-block;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+#language-form input[type="radio"]:checked {
+  background: var(--icon-accent);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.04);
+}
+
+#language-form input[type="radio"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--white);
 }

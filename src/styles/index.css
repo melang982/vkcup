@@ -55,6 +55,10 @@ a {
   cursor: pointer;
 }
 
+svg-icon {
+  display: flex;
+}
+
 .attachment__text a {
   color: var(--text-link);
 }
@@ -277,18 +281,19 @@ letter-item > a::after {
 }
 
 .unread-dot {
+  display: inline-block;
   width: 6px;
   height: 6px;
   border-radius: 100%;
-  background: var(--icon-secondary);
+  background: var(--icon-accent);
 }
 
 .unread .unread-dot__wrapper {
   display: flex;
 }
 
-.unread .unread-dot {
-  background: var(--icon-accent);
+letter-item > a:not(.unread) .unread-dot {
+  background: var(--icon-secondary);
 }
 
 letter-item .unread-dot__wrapper {
@@ -410,7 +415,6 @@ single-letter {
 single-letter .unread-dot {
   position: absolute;
   left: -19px;
-  background: var(--icon-accent);
 }
 
 .letter__header .avatar {

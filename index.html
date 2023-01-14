@@ -13,31 +13,33 @@
     <title>Mail.ru</title>
   </head>
   <body>
-    <div id="wrap">
-      <header id="header">
-        <a href="/" data-link><svg-icon name="logo" width="96" height="32"></svg-icon></a>
-        <button id="btn-filter">
-          <span data-i18n-key="filter"></span>
-          <svg-icon name="chevron_down"></svg-icon>
-        </button>
-      </header>
-      <div class="columns">
-        <nav id="nav">
-          <button id="btn-compose" data-i18n-key="compose"></button>
-          <div id="folders"></div>
-          <hr />
-          <button id="btn-new-folder">
-            <svg-icon name="add" width="16" height="16"></svg-icon>
-            <span data-i18n-key="new-folder"></span>
+    <div id="theme">
+      <div id="wrap">
+        <header id="header">
+          <a href="/" data-link><svg-icon name="logo" width="96" height="32"></svg-icon></a>
+          <button id="btn-filter">
+            <span data-i18n-key="filter"></span>
+            <svg-icon name="chevron_down"></svg-icon>
           </button>
-        </nav>
-        <div id="app"></div>
+        </header>
+        <div class="columns">
+          <nav id="nav">
+            <button id="btn-compose" data-i18n-key="compose"></button>
+            <div id="folders"></div>
+            <hr />
+            <button id="btn-new-folder">
+              <svg-icon name="add" width="16" height="16"></svg-icon>
+              <span data-i18n-key="new-folder"></span>
+            </button>
+          </nav>
+          <div id="app"></div>
+        </div>
       </div>
+      <button id="btn-settings">
+        <svg-icon name="gear"></svg-icon>
+        <span data-i18n-key="settings"></span>
+      </button>
     </div>
-    <button id="btn-settings">
-      <svg-icon name="gear"></svg-icon>
-      <span data-i18n-key="settings"></span>
-    </button>
     <div id="attach__popup" class="popup">
       <div class="attachment"><img />image_4.jpg 1.26 MB</div>
       <div id="attach__preview" class="popup"><img /></div>
@@ -60,7 +62,7 @@
         </label>
         <label for="with-attachments">
           <input id="with-attachments" type="checkbox" name="filter" value="with-attachments" />
-          <svg-icon name="attach"></svg-icon>
+          <svg-icon name="attach" width="24" height="24"></svg-icon>
           <span data-i18n-key="with-attachments"></span>
         </label>
       </form>

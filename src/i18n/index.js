@@ -92,4 +92,4 @@ const getDeclination = (number, key) => {
   );
 };
 
-export { initI18n, formatDate, letterDate, getDeclination };
+export { initI18n, formatDate, letterDate, getDeclination, translateElement };

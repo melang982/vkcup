@@ -3,7 +3,8 @@ import "./styles/settings.css";
 import "./styles/themes.css";
 import "./styles/filter.css";
 import { initRouter, navigateTo } from "./router";
-import { initI18n } from "./i18n";
+import { initI18n, translateElement } from "./i18n";
+import { addChild } from "./utils";
 import "./components/SvgIcon";
 
 initRouter();
@@ -88,7 +89,7 @@ const themeColorsLight = [
 const setTheme = (newTheme) => {
   document.body.className = "";
   document.body.style.background = null;
-  document.getElementById("wrap").className = "";
+  document.getElementById("theme").className = "";
   document.getElementById("header").style.background = null;
 
   switch (newTheme) {
@@ -99,11 +100,11 @@ const setTheme = (newTheme) => {
       break;
     case "anime":
       document.body.className = "anime";
-      document.getElementById("wrap").className = "color-theme-dark";
+      document.getElementById("theme").className = "color-theme-dark";
       break;
     default:
       const isDark = themeColorsDark.includes(newTheme);
-      document.getElementById("wrap").className =
+      document.getElementById("theme").className =
         "color-theme" + (isDark ? " color-theme-dark" : "");
       document.body.style.background = newTheme;
       document.getElementById("header").style.background = newTheme;
@@ -111,14 +112,14 @@ const setTheme = (newTheme) => {
 };
 
 const colorsGrid = document.getElementById("themes__colors");
-themeColorsDark.concat(themeColorsLight).forEach((color) => {
-  const el = document.createElement("input");
-  el.type = "radio";
-  el.name = "theme";
-  el.value = color;
-  el.style = `background: ${color}`;
-  colorsGrid.appendChild(el);
-});
+themeColorsDark.concat(themeColorsLight).forEach((color) =>
+  addChild(colorsGrid, "input", null, null, {
+    type: "radio",
+    name: "theme",
+    value: color,
+    style: `background: ${color}`,
+  })
+);
 
 document
   .querySelectorAll("input[name='theme']")
@@ -193,6 +194,23 @@ filterCheckboxes.forEach((el) => {
     } else if (!filters.find((checkbox) => checkbox.checked)) {
       elements.all.checked = true;
       resetBtn.style.display = "none";
+    }
+
+    //обновляем текст и иконку в кнопке фильтра:
+    const filterButton = document.getElementById("btn-filter");
+    document
+      .querySelectorAll("#btn-filter > *:not([name='chevron_down'])")
+      .forEach((child) => filterButton.removeChild(child));
+    const checked = filters.filter((checkbox) => checkbox.checked);
+    if (checked.length == 0 || checked.length > 1) {
+      const newEl = document.createElement("span");
+      newEl.setAttribute("data-i18n-key", checked.length == 0 ? "filter" : "filters");
+      filterButton.prepend(newEl);
+      translateElement(newEl);
+    } else {
+      const checkedEl = checked[0];
+      filterButton.prepend(checkedEl.nextElementSibling.nextElementSibling.cloneNode(true));
+      filterButton.prepend(checkedEl.nextElementSibling.cloneNode(true));
     }
     addFiltersToUrl();
   });

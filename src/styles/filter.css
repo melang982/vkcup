@@ -1,8 +1,14 @@
 #btn-filter {
   position: absolute;
+  display: flex;
+  align-items: center;
   right: 20px;
   top: 20px;
   color: var(--text-primary);
+}
+
+#btn-filter > [name="chevron_down"] {
+  margin-left: 4px;
 }
 
 #filter__popup {

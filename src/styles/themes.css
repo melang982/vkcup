@@ -18,9 +18,14 @@
 
 .color-theme {
   --text-primary: #fff;
+  --icon-primary: #fff;
+  --logo: #fff;
+}
+
+.color-theme-dark {
   --sidebar-text-primary: #fff;
   --sidebar-text-active: #fff;
-  --logo: #fff;
+  --transparent-active: rgba(255, 255, 255, 0.24);
 }
 
 .color-theme header:before {
@@ -33,10 +38,6 @@
   background: inherit;
   filter: brightness(65%) saturate(150%);
   z-index: -1;
-}
-
-.color-theme .nav-btn.active {
-  background: rgba(255, 255, 255, 0.24);
 }
 
 .anime {
