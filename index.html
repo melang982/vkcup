@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <style>
+      html {
+        visibility: hidden;
+        opacity: 0;
+      }
+    </style>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -77,8 +83,14 @@
         <span data-i18n-key="appearance-description"></span>
         <div id="themes__colors"></div>
         <div id="themes__main">
-          <input type="radio" name="theme" value="dark" />
-          <input type="radio" name="theme" value="default" />
+          <label for="dark">
+            <input type="radio" name="theme" value="dark" />
+            <svg-icon name="logo" width="96" height="32"></svg-icon>
+          </label>
+          <label for="default">
+            <input type="radio" name="theme" value="default" />
+            <svg-icon name="logo" width="96" height="32"></svg-icon>
+          </label>
           <input type="radio" name="theme" value="anime" />
         </div>
       </div>

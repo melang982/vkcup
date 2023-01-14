@@ -147,6 +147,7 @@ document.addEventListener("click", () => {
   if (isFilterOpen) toggleFilterPopup();
   if (isSettingsOpen) toggleDrawer(false);
   document.getElementById("attach__popup").style.display = "none";
+  document.querySelectorAll("letter-item").forEach((btn) => btn.classList.remove("active"));
   document.querySelectorAll(".btn-attach").forEach((btn) => btn.classList.remove("active"));
 });
 

@@ -1,16 +1,24 @@
 :root {
   --background: #f6f7f8;
+  --background-modal: #fff;
+  --background-header: #fff;
   --transparent-hover: rgba(0, 16, 61, 0.04);
   --transparent-active: rgba(0, 16, 61, 0.08);
   --separator: rgba(0, 16, 61, 0.12);
-  --shadow: rgba(0, 16, 61, 0.24);
+  --shadow: rgba(0, 16, 61, 0.16);
+  --shadow24: rgba(0, 16, 61, 0.24);
   --text-secondary: #87898f;
   --white: #fff;
   --icon-accent: #005ff9;
   --icon-secondary: #a5a7ad;
+  --icon-primary: #2c2d2e;
   --text-primary: #2c2d2e;
-  --text-sidebar: #333333;
+  --sidebar-text-primary: #333333;
+  --sidebar-text-active: #333333;
   --text-link: #005bd1;
+  --compose: #333333;
+  --border: rgba(0, 16, 61, 0.12);
+  --logo: #005ff9;
 }
 
 body {
@@ -47,12 +55,16 @@ a {
   cursor: pointer;
 }
 
+.attachment__text a {
+  color: var(--text-link);
+}
+
 .popup {
   display: none;
   position: absolute;
   padding: 8px 0;
-  background: var(--white);
-  box-shadow: 0px 4px 32px var(--separator);
+  background: var(--background-modal);
+  box-shadow: 0px 4px 32px var(--shadow);
   border-radius: 12px;
   z-index: 1;
 }
@@ -76,7 +88,7 @@ a {
   height: fit-content;
   margin: auto;
   padding: 8px 0;
-  box-shadow: 0px 4px 32px var(--shadow);
+  box-shadow: 0px 4px 32px var(--shadow24);
 }
 
 .attachment {
@@ -123,7 +135,11 @@ svg path {
 }
 
 use {
-  fill: var(--text-sidebar);
+  fill: var(--icon-primary);
+}
+
+#nav use {
+  fill: var(--sidebar-text-primary);
 }
 
 .nav-btn:hover,
@@ -157,6 +173,7 @@ letter-item.active > a {
   border: 1px solid var(--separator);
   border-radius: 8px;
   background: var(--white);
+  color: var(--compose);
 }
 
 #btn-new-folder {
@@ -177,13 +194,13 @@ header {
   filter: drop-shadow(0px 0px 16px rgba(2, 13, 41, 0.12));
 }
 
-header use {
-  fill: var(--icon-accent);
+svg-icon[name="logo"] use {
+  fill: var(--logo);
 }
 
 header,
 #app {
-  background: var(--white);
+  background: var(--background-header);
 }
 
 .columns {
@@ -193,7 +210,11 @@ header,
 }
 
 nav {
-  color: var(--text-sidebar);
+  color: var(--sidebar-text-primary);
+}
+
+nav .active {
+  color: var(--sidebar-text-active);
 }
 
 letter-list {
@@ -298,6 +319,7 @@ letter-item input[type="checkbox"] {
 
 letter-item input[type="checkbox"]:checked {
   background: var(--icon-accent);
+  border-color: var(--border) !important;
 }
 
 letter-item input[type="checkbox"]:checked::after {
@@ -413,4 +435,9 @@ single-letter .unread-dot {
   .folder svg {
     margin-right: 10px;
   }
+}
+
+html {
+  visibility: visible;
+  opacity: 1;
 }

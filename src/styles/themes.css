@@ -1,19 +1,26 @@
-:root {
-  --background-dark: #19191a;
-  --text-primary-dark: #e7e8ea;
-  --letter-background-dark: #232324;
-  --icon-accent-dark: #3c82fd;
-  --text-secondary-dark: #8c8e94;
-  --transparent-hover-dark: rgba(255, 255, 255, 0.04);
-  --transparent-active-dark: rgba(255, 255, 255, 0.08);
-  --compose-dark: #333333;
-  --separator-dark: rgba(0, 0, 0, 0.4);
-  --icon-dark: #d9dadd;
-  --text-link-dark: #589bff;
+.dark {
+  --background: #19191a;
+  --background-modal: #303030;
+  --background-header: #232324;
+  --transparent-hover: rgba(255, 255, 255, 0.04);
+  --transparent-active: rgba(255, 255, 255, 0.08);
+  --separator: rgba(0, 0, 0, 0.4);
+  --text-secondary: #8c8e94;
+  --icon-accent: #3c82fd;
+  --icon-secondary: #9c9da2;
+  --icon-primary: #d9dadd;
+  --text-primary: #e7e8ea;
+  --sidebar-text-primary: #e7e8ea;
+  --sidebar-text-active: #fff;
+  --text-link: #589bff;
+  --logo: #fff;
 }
 
-.color-theme-dark #nav .nav-btn {
-  color: var(--white);
+.color-theme {
+  --text-primary: #fff;
+  --sidebar-text-primary: #fff;
+  --sidebar-text-active: #fff;
+  --logo: #fff;
 }
 
 .color-theme header:before {
@@ -28,16 +35,8 @@
   z-index: -1;
 }
 
-.color-theme header use {
-  fill: var(--white);
-}
-
 .color-theme .nav-btn.active {
   background: rgba(255, 255, 255, 0.24);
-}
-
-.color-theme-dark use {
-  fill: var(--white);
 }
 
 .anime {
@@ -65,79 +64,6 @@
   }
 }
 
-.dark {
-  color: var(--text-primary-dark);
-  background: var(--background-dark);
-}
-
-.dark .nav-btn:hover {
-  background: var(--transparent-hover-dark);
-}
-
-.dark .folder {
-  color: var(--text-primary-dark);
-}
-
-.dark use {
-  fill: var(--text-primary-dark);
-}
-
-.dark .attachment__text a {
-  color: var(--text-link-dark);
-}
-
-.dark .btn-compose {
-  color: var(--compose-dark);
-  border-color: var(--separator-dark);
-}
-
-.dark hr {
-  border-color: var(--separator-dark);
-}
-
-.dark header,
-.dark letter-list {
-  background: var(--letter-background-dark);
-}
-
-.dark .folders,
-.dark .btn-theme {
-  color: var(--text-primary-dark);
-}
-
-.dark .divider {
-  background: var(--separator-dark);
-}
-
-.dark .letter-item__text,
-.dark .letter-item__date {
-  color: var(--text-secondary-dark);
-}
-
-.dark .folder path,
-.dark header path:nth-child(2),
-.dark .btn-theme rect {
-  fill: var(--white);
-}
-
-.dark .btn-new-folder path {
-  fill: var(--text-primary-dark);
-}
-
-.dark .btn-theme path {
-  stroke: var(--white);
-}
-
-.dark header .btn path,
-.dark .attach-icon path {
-  fill: var(--icon-dark);
-}
-
-.dark .unread-icon {
-  background: var(--icon-accent-dark);
-}
-
-.dark .checkbox {
-  background: none;
+.dark letter-item input[type="checkbox"] {
   border-color: rgba(255, 255, 255, 0.16);
 }
