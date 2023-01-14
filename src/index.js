@@ -153,9 +153,21 @@ document.addEventListener("click", () => {
 });
 
 // Фильтр - чекбоксы:
+const filterOptions = {
+  unread: '<span class="unread-dot"></span>',
+  flagged: '<svg-icon name="bookmark"></svg-icon>',
+  "with-attachments": '<svg-icon name="attach" width="24" height="24"></svg-icon>',
+};
+
+const filterForm = document.getElementById("filter__form");
+const filters = [];
+for (let filterOption in filterOptions) {
+  const label = addChild(filterForm, "label", null, null, { for: filterOption });
+  label.innerHTML += `<input type="checkbox" id="${filterOption}" name="filter" value="${filterOption}">${filterOptions[filterOption]}<span data-i18n-key="${filterOption}"></span>`;
+  filters.push(document.getElementById(filterOption));
+}
 
 const filterCheckboxes = document.querySelectorAll("input[name='filter']");
-const resetBtn = document.getElementById("btn-reset-filter");
 
 const addFiltersToUrl = () => {
   const url = new URL(window.location);
@@ -171,11 +183,33 @@ const addFiltersToUrl = () => {
   navigateTo(url);
 };
 
+const resetBtn = document.getElementById("btn-reset-filter");
+
+const updateFilterLabel = () => {
+  //обновляем текст и иконку в кнопке фильтра:
+  const currentFilter = document.getElementById("filter__current");
+  const currentIcons = document.getElementById("filter__icons");
+
+  const checked = filters.filter((checkbox) => checkbox.checked);
+  if (checked.length == 0) {
+    currentFilter.setAttribute("data-i18n-key", "filter");
+    currentIcons.innerHTML = "";
+    resetBtn.style.display = "none";
+  } else {
+    currentFilter.setAttribute("data-i18n-key", checked.length == 1 ? checked[0].id : "filters");
+
+    resetBtn.style.display = "block";
+    currentIcons.innerHTML = checked.map((x) => filterOptions[x.id]).join("");
+  }
+  translateElement(currentFilter);
+};
+
 resetBtn.addEventListener("click", (e) => {
   filterCheckboxes.forEach((el) => {
     if (el.value == "all") el.checked = true;
     else el.checked = false;
   });
+  updateFilterLabel();
   addFiltersToUrl();
 });
 
@@ -186,32 +220,15 @@ filterCheckboxes.forEach((el) => {
 
   el.addEventListener("change", (e) => {
     const elements = e.target.form.elements;
-    const filters = [elements.unread, elements["flagged"], elements["with-attachments"]];
+
     if (e.target.value === "all") filters.forEach((checkbox) => (checkbox.checked = false));
     else if (e.target.checked) {
       elements.all.checked = false;
-      resetBtn.style.display = "block";
     } else if (!filters.find((checkbox) => checkbox.checked)) {
       elements.all.checked = true;
-      resetBtn.style.display = "none";
     }
 
-    //обновляем текст и иконку в кнопке фильтра:
-    const filterButton = document.getElementById("btn-filter");
-    document
-      .querySelectorAll("#btn-filter > *:not([name='chevron_down'])")
-      .forEach((child) => filterButton.removeChild(child));
-    const checked = filters.filter((checkbox) => checkbox.checked);
-    if (checked.length == 0 || checked.length > 1) {
-      const newEl = document.createElement("span");
-      newEl.setAttribute("data-i18n-key", checked.length == 0 ? "filter" : "filters");
-      filterButton.prepend(newEl);
-      translateElement(newEl);
-    } else {
-      const checkedEl = checked[0];
-      filterButton.prepend(checkedEl.nextElementSibling.nextElementSibling.cloneNode(true));
-      filterButton.prepend(checkedEl.nextElementSibling.cloneNode(true));
-    }
+    updateFilterLabel();
     addFiltersToUrl();
   });
 });

@@ -11,6 +11,20 @@
   margin-left: 4px;
 }
 
+#filter__icons {
+  display: flex;
+  align-items: center;
+}
+
+#filter__icons .unread-dot {
+  order: 1;
+  margin: 0 7px;
+}
+
+#filter__current {
+  margin-left: 4px;
+}
+
 #filter__popup {
   right: 12px;
   top: 50px;
