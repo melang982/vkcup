@@ -1,5 +1,6 @@
 import FolderView from "../views/FolderView.js";
 import EmailView from "../views/EmailView.js";
+import { filterOnRouteChange } from "../filters";
 
 const pathToRegex = (path) =>
   new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -49,19 +50,7 @@ const router = async () => {
     else link.classList.remove("active");
   }
 
-  //set filter checkmarks from url:
-  const queryString = window.location.search;
-  const params = new URLSearchParams(queryString);
-  let found = false;
-
-  document.querySelectorAll("input[name='filter']").forEach((el) => {
-    if (params.get(`filter_${el.value.replace("-", "_")}`)) {
-      el.checked = true;
-      found = true;
-    } else el.checked = false;
-  });
-  if (found) document.getElementById("btn-reset-filter").style.display = "block";
-  else document.querySelector("input[value='all']").checked = true;
+  filterOnRouteChange();
 };
 
 const initRouter = () => {

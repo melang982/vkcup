@@ -2,6 +2,7 @@ const defaultLocale = "ru";
 
 let locale;
 let translations = {};
+let hasTranslations = false;
 
 const fetchTranslationsFor = async (newLocale) => {
   const response = await fetch(`/${newLocale}.json`);
@@ -9,6 +10,7 @@ const fetchTranslationsFor = async (newLocale) => {
 };
 
 const translateElement = (element) => {
+  if (!hasTranslations) return; //если еще не скачали переводы, переведем этот элемент когда скачаем вместе со всеми
   const key = element.getAttribute("data-i18n-key");
   element.innerText = translations[key];
 };
@@ -26,6 +28,7 @@ const translatePage = () => {
 const setLocale = async (newLocale) => {
   if (newLocale === locale) return;
   const newTranslations = await fetchTranslationsFor(newLocale);
+  hasTranslations = true;
   locale = newLocale;
   const flagEl = document.getElementById("settings__flag");
 
