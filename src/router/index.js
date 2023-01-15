@@ -1,19 +1,7 @@
-import FolderView from "../views/FolderView.js";
-import EmailView from "../views/EmailView.js";
 import { filterOnRouteChange } from "../filters";
-
-const pathToRegex = (path) =>
-  new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
-
-const getParams = (match) => {
-  const values = match.result.slice(1);
-  const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map((result) => result[1]);
-  return Object.fromEntries(
-    keys.map((key, i) => {
-      return [key, values[i]];
-    })
-  );
-};
+import { folders } from "../constants";
+import "../components/LetterList";
+import "../components/SingleLetter";
 
 const navigateTo = (url) => {
   document.body.appendChild(document.getElementById("attach__popup")); //чтобы его не удалило с письмами
@@ -22,26 +10,17 @@ const navigateTo = (url) => {
 };
 
 const router = async () => {
-  const routes = [
-    { path: "/:folderSlug/:id", view: EmailView },
-    { path: "/:folderSlug", view: FolderView },
-  ];
+  const url = location.pathname == "/" ? "/inbox" : location.pathname;
 
-  //Test each route for potential match
-  const potentialMatches = routes.map((route) => {
-    return {
-      route: route,
-      result: location.pathname.match(pathToRegex(route.path)),
-    };
-  });
+  const [, folder, id] = url.match(/\/([^\/]+)(?:\/([0-9]+))?/) || [];
 
-  let match = potentialMatches.find((potentialMatch) => potentialMatch.result !== null);
-  //console.log(match);
-  if (!match) match = { route: routes[1], result: [location.pathname, "inbox"] };
+  let view = "";
+  if (!folder || !folders.includes(folder)) view = "404";
+  else if (!id)
+    view = `<letter-list folderSlug=${folder}></letter-list><div id="infinite-scroll"></div>`;
+  else view = `<single-letter id=${id} />`;
 
-  const view = new match.route.view(getParams(match));
-
-  document.querySelector("#app").innerHTML = await view.getHtml();
+  document.querySelector("#app").innerHTML = view;
 
   //highlight active link:
   const links = document.querySelectorAll("#folders [data-link]");

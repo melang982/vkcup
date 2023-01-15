@@ -6,6 +6,7 @@ import { initRouter } from "./router";
 import { initI18n } from "./i18n";
 import { initFilters } from "./filters";
 import { addChild } from "./utils";
+import { folders, themeColorsLight, themeColorsDark } from "./constants";
 import "./components/SvgIcon";
 
 initRouter();
@@ -13,7 +14,7 @@ initI18n();
 initFilters();
 
 //Navigation folders:
-const folders = ["inbox", "important", "sent", "drafts", "archive", "spam", "trash"];
+
 const wrapper = document.getElementById("folders");
 
 let foldersHtml = "";
@@ -66,28 +67,6 @@ settingsDrawer.addEventListener("click", (e) => {
 });
 
 //Темы:
-const themeColorsDark = [
-  "#4A352F",
-  "#424242",
-  "#5A355A",
-  "#35385A",
-  "#646ECB",
-  "#E73672",
-  "#F44336",
-  "#388E3C",
-];
-
-const themeColorsLight = [
-  "#81D8D0",
-  "#E2DCD2",
-  "#FFEBCD",
-  "#E7EED2",
-  "#D0F0F7",
-  "#C9D0FB",
-  "#DDF3FF",
-  "#F0F0F0",
-];
-
 const setTheme = (newTheme) => {
   document.body.className = "";
   document.body.style.background = null;
