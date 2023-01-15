@@ -4,7 +4,7 @@
   align-items: center;
   right: 20px;
   top: 20px;
-  color: var(--text-primary);
+  color: var(--header-text);
 }
 
 #btn-filter > [name="chevron_down"] {
@@ -75,6 +75,7 @@
 }
 
 .not-found {
+  color: var(--text-primary);
   position: absolute;
   width: fit-content;
   height: fit-content;
@@ -95,4 +96,12 @@
 
 .not-found span {
   font-weight: 700;
+}
+
+.not-found svg-icon {
+  display: none;
+}
+
+.not-found use {
+  fill: var(--text-primary);
 }

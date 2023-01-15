@@ -13,17 +13,15 @@ initRouter();
 initI18n();
 initFilters();
 
-//Navigation folders:
-
-const wrapper = document.getElementById("folders");
-
-let foldersHtml = "";
-for (let folder of folders) {
-  foldersHtml += `<a class="folder nav-btn" data-link="" href="/${folder}"><svg width="20" height="20" viewBox="0 0 20 20">
-  <use href="/icons/${folder}.svg#id"></use>
-</svg><span data-i18n-key="${folder}"></span></a>`;
-}
-wrapper.innerHTML = foldersHtml;
+//Создаем кнопки с папками:
+document.getElementById("folders").innerHTML = folders
+  .map(
+    (folder) =>
+      `<a class="folder nav-btn" data-link="" href="/${folder}"><svg width="20" height="20" viewBox="0 0 20 20">
+<use href="/icons/${folder}.svg#id"></use>
+</svg><span data-i18n-key="${folder}"></span></a>`
+  )
+  .join("");
 
 //Настройки:
 let isSettingsOpen = false;
@@ -68,9 +66,9 @@ settingsDrawer.addEventListener("click", (e) => {
 
 //Темы:
 const setTheme = (newTheme) => {
-  document.body.className = "";
+  document.body.removeAttribute("class");
   document.body.style.background = null;
-  document.getElementById("theme").className = "";
+  document.getElementById("theme").removeAttribute("class");
   document.getElementById("header").style.background = null;
 
   switch (newTheme) {
@@ -81,7 +79,7 @@ const setTheme = (newTheme) => {
       break;
     case "anime":
       document.body.className = "anime";
-      document.getElementById("theme").className = "color-theme-dark";
+      document.getElementById("theme").className = "color-theme color-theme-dark";
       break;
     default:
       const isDark = themeColorsDark.includes(newTheme);

@@ -24,6 +24,11 @@ class LetterList extends HTMLElement {
       if (jsonData.data.length == 0) {
         const notFound = addChild(this, "div", "not-found");
         addChild(notFound, "div");
+        addChild(notFound, "svg-icon", null, null, {
+          name: "notfound-alt",
+          width: "100",
+          height: "100",
+        });
         const el = addChild(notFound, "span", null, null, { "data-i18n-key": "not-found" });
         translateElement(el);
       } else

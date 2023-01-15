@@ -23,11 +23,12 @@ const router = async () => {
   document.querySelector("#app").innerHTML = view;
 
   //highlight active link:
-  const links = document.querySelectorAll("#folders [data-link]");
+  const links = document.querySelectorAll(".folder");
   for (let link of links) {
     if (link.href == document.URL) link.classList.add("active");
     else link.classList.remove("active");
   }
+  if (location.pathname == "/") document.querySelector(".folder").classList.add("active");
 
   filterOnRouteChange();
 };
@@ -43,7 +44,6 @@ const initRouter = () => {
         e.preventDefault();
         navigateTo(e.target.href);
       }
-      //e.preventDefault();
     });
     router();
   });

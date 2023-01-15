@@ -15,15 +15,17 @@
   --text-link: #589bff;
   --logo: #fff;
   --border: rgba(255, 255, 255, 0.16);
+  --header-text: #fff;
 }
 
 .color-theme {
-  --text-primary: #fff;
   --icon-primary: #fff;
   --logo: #fff;
+  --header-text: #fff;
 }
 
 .color-theme-dark {
+  --text-primary: #fff;
   --sidebar-text-primary: #fff;
   --sidebar-text-active: #fff;
   --transparent-active: rgba(255, 255, 255, 0.24);
@@ -54,11 +56,19 @@
   background: #6b1344;
 }
 
+.color-theme .not-found svg-icon {
+  display: block;
+}
+
+.color-theme .not-found div {
+  display: none;
+}
+
 .dark #language-form input[type="radio"]:checked {
   border-color: var(--icon-accent);
 }
 
-.dark .not-found {
+.dark .not-found div {
   background-image: -webkit-image-set(url(/notfound-dark.png) 1x, url(/notfound-dark2x.png) 2x);
 }
 
