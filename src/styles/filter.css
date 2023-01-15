@@ -73,3 +73,26 @@
   box-sizing: border-box;
   display: none;
 }
+
+.not-found {
+  position: absolute;
+  width: fit-content;
+  height: fit-content;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  text-align: center;
+}
+
+.not-found div {
+  width: 310px;
+  height: 180px;
+  background-image: -webkit-image-set(url(/notfound.png) 1x, url(/notfound2x.png) 2x);
+  margin-bottom: 20px;
+}
+
+.not-found span {
+  font-weight: 700;
+}

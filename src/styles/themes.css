@@ -14,6 +14,7 @@
   --sidebar-text-active: #fff;
   --text-link: #589bff;
   --logo: #fff;
+  --border: rgba(255, 255, 255, 0.16);
 }
 
 .color-theme {
@@ -53,6 +54,14 @@
   background: #6b1344;
 }
 
+.dark #language-form input[type="radio"]:checked {
+  border-color: var(--icon-accent);
+}
+
+.dark .not-found {
+  background-image: -webkit-image-set(url(/notfound-dark.png) 1x, url(/notfound-dark2x.png) 2x);
+}
+
 @media (min-width: 1441px), (min-height: 901px) {
   .anime {
     background-size: 1680px 1050px;
@@ -63,8 +72,4 @@
       background-size: 1920px 1200px;
     }
   }
-}
-
-.dark letter-item input[type="checkbox"] {
-  border-color: rgba(255, 255, 255, 0.16);
 }

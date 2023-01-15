@@ -203,11 +203,13 @@ svg-icon[name="logo"] use {
 }
 
 header,
-#app {
+letter-list,
+single-letter {
   background: var(--background-header);
 }
 
 .columns {
+  height: calc(100vh - 68px);
   display: flex;
   gap: 16px;
   padding: 0 12px 0 16px;
@@ -219,10 +221,6 @@ nav {
 
 nav .active {
   color: var(--sidebar-text-active);
-}
-
-letter-list {
-  display: block;
 }
 
 .folder {
@@ -237,6 +235,11 @@ letter-list {
 #app {
   flex-grow: 1;
   z-index: 1;
+  position: relative;
+}
+
+letter-list {
+  display: block;
   border-radius: 12px;
 }
 
@@ -317,14 +320,13 @@ letter-item input[type="checkbox"] {
   margin: 0 8px;
   box-sizing: border-box;
   border-radius: 4px;
-  border: 1px solid var(--separator);
+  border: 1px solid var(--border);
   display: none;
   position: relative;
 }
 
 letter-item input[type="checkbox"]:checked {
   background: var(--icon-accent);
-  border-color: var(--border) !important;
 }
 
 letter-item input[type="checkbox"]:checked::after {
@@ -403,6 +405,7 @@ single-letter {
   display: block;
   position: relative;
   padding: 0 32px 32px;
+  border-radius: 12px;
 }
 
 .letter__header {

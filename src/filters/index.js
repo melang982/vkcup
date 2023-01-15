@@ -24,9 +24,7 @@ const initFilters = () => {
   resetBtn = document.getElementById("btn-reset-filter");
   filterCheckboxes = document.querySelectorAll("input[name='filter']");
 
-  resetBtn.addEventListener("click", () => {
-    addFiltersToUrl([]);
-  });
+  resetBtn.addEventListener("click", () => addFiltersToUrl([]));
 
   checkboxAll.addEventListener("click", (e) => {
     if (!e.target.checked) e.preventDefault(); //запрещаем убирать галку со "Все"

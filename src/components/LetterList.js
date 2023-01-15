@@ -1,5 +1,7 @@
 import "./LetterItem.js";
 import { getLetters } from "../api/api.js";
+import { addChild } from "../utils";
+import { translateElement } from "../i18n/index.js";
 
 class LetterList extends HTMLElement {
   constructor() {
@@ -10,10 +12,8 @@ class LetterList extends HTMLElement {
   connectedCallback() {
     const observer = new IntersectionObserver( //бесконечный скролл
       (entries) => {
-        if (entries[0].isIntersecting === true) {
-          //console.log("Element has just become visible in screen");
-          if (this.nextCursor) getLetters(folderSlug, this.nextCursor).then(addItems);
-        }
+        if (entries[0].isIntersecting === true && this.nextCursor)
+          getLetters(folderSlug, this.nextCursor).then(addItems);
       },
       { threshold: [0] }
     );
@@ -21,12 +21,14 @@ class LetterList extends HTMLElement {
     const folderSlug = this.getAttribute("folderSlug");
 
     const addItems = (jsonData) => {
-      for (let item of jsonData.data) {
-        const comp = document.createElement("letter-item");
-        comp.setAttribute("folderSlug", folderSlug);
-        comp.item = item;
-        this.appendChild(comp);
-      }
+      if (jsonData.data.length == 0) {
+        const notFound = addChild(this, "div", "not-found");
+        addChild(notFound, "div");
+        const el = addChild(notFound, "span", null, null, { "data-i18n-key": "not-found" });
+        translateElement(el);
+      } else
+        for (let item of jsonData.data)
+          addChild(this, "letter-item", null, null, { folderSlug: folderSlug }, { item: item });
 
       this.nextCursor = jsonData.nextCursor;
 

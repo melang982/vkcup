@@ -20,6 +20,8 @@
   "unread": "Unread",
   "flagged": "Flagged",
   "with-attachments": "With attachments",
+  "reset-filter": "Reset all",
+  "not-found": "No messages",
   "to": "To: you",
   "recipient": ["recipient", "recipients", "recipients"]
 }
