@@ -56,15 +56,21 @@
 }
 
 #settings__language label {
-  display: block;
+  display: flex;
   cursor: pointer;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+#settings__language label img {
+  margin: 0 12px;
 }
 
 #settings__language,
 #settings__theme {
   border-left: 1px solid var(--separator);
   flex-grow: 1;
-  padding: 26px 0 0 32px;
+  padding: 26px 32px 0;
 }
 
 #themes__colors {
@@ -160,6 +166,14 @@ label[for="dark"] use {
   border-radius: 8px;
 }
 
+#settings__language > div {
+  margin-bottom: 20px;
+}
+
+#settings__btn-language img {
+  margin-left: 8px;
+}
+
 #btn-apply-language:active {
   opacity: 0.7;
 }
@@ -173,7 +187,6 @@ label[for="dark"] use {
   height: 16px;
   border: 1px solid var(--border);
   border-radius: 50%;
-  margin-right: 8px;
 }
 
 #language-form input[type="radio"]:checked {
@@ -194,4 +207,15 @@ label[for="dark"] use {
   height: 6px;
   border-radius: 50%;
   background-color: var(--background-modal);
+}
+
+@media only screen and (max-width: 768px) {
+  #settings__buttons button {
+    width: 132px;
+  }
+
+  #themes__colors {
+    display: grid;
+    grid-template-columns: repeat(8, auto);
+  }
 }

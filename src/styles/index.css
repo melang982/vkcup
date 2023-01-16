@@ -177,6 +177,14 @@ letter-item.active > a {
   color: var(--compose);
 }
 
+#btn-compose svg-icon {
+  display: none;
+}
+
+#btn-compose use {
+  fill: var(--compose);
+}
+
 #btn-new-folder {
   opacity: 0.48;
 }
@@ -193,6 +201,11 @@ header {
   padding: 0 16px;
   margin-bottom: 12px;
   filter: drop-shadow(0px 0px 16px rgba(2, 13, 41, 0.12));
+}
+
+#mobile-menu,
+#logo img {
+  display: none;
 }
 
 #btn-back {
@@ -223,6 +236,7 @@ single-letter {
 }
 
 nav {
+  min-width: 200px;
   color: var(--sidebar-text-primary);
 }
 
@@ -233,10 +247,13 @@ nav .active {
 .folder {
   display: flex;
   align-items: center;
-  justify-content: center;
   border-radius: 8px;
   height: 36px;
-  width: 36px;
+  padding-left: 14px;
+}
+
+.folder svg {
+  margin-right: 10px;
 }
 
 #app {
@@ -507,19 +524,38 @@ single-letter .unread-dot {
   color: var(--text-secondary);
 }
 
-@media only screen and (min-width: 769px) {
+@media only screen and (max-width: 768px) {
   nav {
-    min-width: 200px;
+    min-width: unset;
   }
 
   .folder {
-    width: unset;
-    justify-content: unset;
-    padding-left: 14px;
+    width: 36px;
+    padding: 0;
+    justify-content: center;
   }
 
   .folder svg {
-    margin-right: 10px;
+    margin: 0;
+  }
+
+  #logo svg-icon,
+  .folder span,
+  #btn-compose span,
+  #btn-settings span,
+  #btn-back span,
+  #btn-new-folder,
+  hr {
+    display: none;
+  }
+
+  header img {
+    display: inline;
+  }
+
+  #mobile-menu,
+  #btn-compose svg-icon {
+    display: flex;
   }
 }
 

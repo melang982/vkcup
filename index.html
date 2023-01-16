@@ -18,6 +18,7 @@
         <header id="header">
           <a id="logo" href="/" data-link>
             <svg-icon name="logo" width="96" height="32"></svg-icon>
+            <img src="/icons/logo-mobile.svg" alt="Mail.ru logo" />
           </a>
           <button id="btn-filter">
             <span id="filter__icons"></span>
@@ -31,8 +32,15 @@
         </header>
         <div class="columns">
           <nav id="nav">
-            <button id="btn-compose" data-i18n-key="compose"></button>
-            <div id="folders"></div>
+            <button id="btn-compose">
+              <span data-i18n-key="compose"></span>
+              <svg-icon name="compose" width="17" height="18"></svg-icon>
+            </button>
+            <div id="folders">
+              <a class="folder nav-btn" id="mobile-menu" data-link="" href="/#">
+                <svg-icon name="menu" width="21" height="22"></svg-icon>
+              </a>
+            </div>
             <hr />
             <button id="btn-new-folder">
               <svg-icon name="add" width="16" height="16"></svg-icon>

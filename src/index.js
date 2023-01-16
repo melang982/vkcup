@@ -14,7 +14,7 @@ initI18n();
 initFilters();
 
 //Создаем кнопки с папками:
-document.getElementById("folders").innerHTML = folders
+document.getElementById("folders").innerHTML += folders
   .map(
     (folder) =>
       `<a class="folder nav-btn" data-link="" href="/${folder}"><svg width="20" height="20" viewBox="0 0 20 20">
