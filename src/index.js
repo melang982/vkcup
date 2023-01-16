@@ -4,7 +4,7 @@ import "./styles/themes.css";
 import "./styles/filter.css";
 import { initRouter } from "./router";
 import { initI18n } from "./i18n";
-import { initFilters } from "./filters";
+import { initFilters, closeFilterPopup } from "./filters";
 import { addChild } from "./utils";
 import { folders, themeColorsLight, themeColorsDark } from "./constants";
 import "./components/SvgIcon";
@@ -22,6 +22,25 @@ document.getElementById("folders").innerHTML = folders
 </svg><span data-i18n-key="${folder}"></span></a>`
   )
   .join("");
+
+//Попап вложения:
+const attachment = document.querySelector(".attachment");
+const preview = document.getElementById("attach__preview");
+let timeoutHandle;
+
+const displayPreview = () => {
+  preview.style.display = "block";
+  if (timeoutHandle) clearTimeout(timeoutHandle);
+};
+const hidePreview = () => (timeoutHandle = setTimeout(() => (preview.style.display = "none"), 600));
+
+attachment.addEventListener("mouseenter", displayPreview);
+preview.addEventListener("mouseenter", displayPreview);
+attachment.addEventListener("mouseleave", hidePreview);
+preview.addEventListener("mouseleave", hidePreview);
+
+attachment.addEventListener("click", (e) => e.stopPropagation());
+preview.addEventListener("click", (e) => e.stopPropagation());
 
 //Настройки:
 let isSettingsOpen = false;
@@ -42,6 +61,7 @@ const toggleDrawer = (newValue) => {
 
 document.getElementById("btn-settings").addEventListener("click", (e) => {
   toggleDrawer(true);
+  closeFilterPopup();
   e.stopPropagation();
 });
 

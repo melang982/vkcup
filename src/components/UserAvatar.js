@@ -4,11 +4,9 @@ class UserAvatar extends HTMLElement {
   }
 
   connectedCallback() {
-    const src = this.getAttribute("src");
-
-    this.innerHTML = src
-      ? `<img class="avatar" src=${src} alt="Avatar"></img>`
-      : `<div class="avatar">${this.getAttribute("initials")}</div>`;
+    this.innerHTML = this.author.avatar
+      ? `<img class="avatar" src=${this.author.avatar} alt="Avatar"></img>`
+      : `<div class="avatar">${this.author.name.charAt(0)}</div>`;
   }
 }
 

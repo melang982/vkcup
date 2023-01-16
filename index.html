@@ -16,11 +16,17 @@
     <div id="theme">
       <div id="wrap">
         <header id="header">
-          <a href="/" data-link><svg-icon name="logo" width="96" height="32"></svg-icon></a>
+          <a id="logo" href="/" data-link>
+            <svg-icon name="logo" width="96" height="32"></svg-icon>
+          </a>
           <button id="btn-filter">
             <span id="filter__icons"></span>
             <span id="filter__current" data-i18n-key="filter"></span>
             <svg-icon name="chevron_down"></svg-icon>
+          </button>
+          <button id="btn-back">
+            <svg-icon name="chevron_left"></svg-icon>
+            <span data-i18n-key="back"></span>
           </button>
         </header>
         <div class="columns">
@@ -42,13 +48,16 @@
       </button>
     </div>
     <div id="attach__popup" class="popup">
-      <div class="attachment"><img />image_4.jpg 1.26 MB</div>
-      <div id="attach__preview" class="popup"><img /></div>
+      <a class="attachment" download="Image.jpg">
+        <img />image.jpg&nbsp;<span id="attach__size"></span>
+      </a>
+      <a id="attach__preview" download="Image.jpg" class="popup"><img /></a>
     </div>
     <div id="filter__popup" class="popup">
       <form id="filter__form">
         <label for="all">
           <input id="all" type="checkbox" name="filter" value="all" />
+          <svg-icon name="done" width="16" height="16"></svg-icon>
           <span data-i18n-key="all"></span>
         </label>
       </form>

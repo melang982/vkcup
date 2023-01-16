@@ -12,12 +12,23 @@ let resetBtn, filterCheckboxes;
 const filters = [];
 const checkboxAll = document.getElementById("all");
 
+const filterPopup = document.getElementById("filter__popup");
+let isFilterOpen = false;
+
+const closeFilterPopup = () => {
+  isFilterOpen = false;
+  filterPopup.style.display = "none";
+};
+
 const initFilters = () => {
   const filterForm = document.getElementById("filter__form");
 
   for (let filterOption in filterOptions) {
     const label = addChild(filterForm, "label", null, null, { for: filterOption });
-    label.innerHTML += `<input type="checkbox" id="${filterOption}" name="filter" value="${filterOption}">${filterOptions[filterOption]}<span data-i18n-key="${filterOption}"></span>`;
+    label.innerHTML += `<input type="checkbox" id="${filterOption}" name="filter" value="${filterOption}">
+    <svg-icon name="done" width="16" height="16"></svg-icon>
+    ${filterOptions[filterOption]}
+    <span data-i18n-key="${filterOption}"></span>`;
     filters.push(document.getElementById(filterOption));
   }
 
@@ -38,8 +49,6 @@ const initFilters = () => {
   });
 
   //Фильтр - попап:
-  let isFilterOpen = false;
-  const filterPopup = document.getElementById("filter__popup");
 
   const toggleFilterPopup = () => {
     isFilterOpen = !isFilterOpen;
@@ -53,10 +62,8 @@ const initFilters = () => {
 
   filterPopup.addEventListener("click", (e) => e.stopPropagation());
 
-  // Закрываем попап:
-  document.addEventListener("click", () => {
-    if (isFilterOpen) toggleFilterPopup();
-  });
+  // Закрываем попап при клике вне его:
+  document.addEventListener("click", () => closeFilterPopup());
 };
 
 const filterOnRouteChange = () => {
@@ -106,4 +113,4 @@ const updateFilterLabel = () => {
   translateElement(currentFilter);
 };
 
-export { initFilters, filterOnRouteChange };
+export { initFilters, filterOnRouteChange, closeFilterPopup };

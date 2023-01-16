@@ -72,6 +72,10 @@
   background-image: -webkit-image-set(url(/notfound-dark.png) 1x, url(/notfound-dark2x.png) 2x);
 }
 
+.dark .letter__download {
+  background: linear-gradient(0deg, rgba(44, 44, 45, 0.9) 45.32%, rgba(44, 44, 45, 0) 104.46%);
+}
+
 @media (min-width: 1441px), (min-height: 901px) {
   .anime {
     background-size: 1680px 1050px;

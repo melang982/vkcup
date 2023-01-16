@@ -6,6 +6,14 @@
   "archive": "Archive",
   "spam": "Spam",
   "trash": "Trash",
+
+  "shopping": "Shopping",
+  "money": "Money",
+  "key": "Registrations",
+  "plane": "Travel",
+  "ticket": "Tickets",
+  "government": "Taxes",
+
   "compose": "Compose",
   "settings": "Settings",
   "new-folder": "New folder",
@@ -22,6 +30,10 @@
   "with-attachments": "With attachments",
   "reset-filter": "Reset all",
   "not-found": "No messages",
+  "back": "Return",
   "to": "To: you",
-  "recipient": ["recipient", "recipients", "recipients"]
+  "and": "and",
+  "download": "Download",
+  "recipient": ["recipient", "recipients", "recipients"],
+  "file": ["file", "files", "files"]
 }

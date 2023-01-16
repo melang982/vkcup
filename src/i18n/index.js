@@ -15,14 +15,37 @@ const translateElement = (element) => {
   element.innerText = translations[key];
 };
 
+const translateDeclination = (element) => {
+  const key = element.getAttribute("data-i18n-declination");
+  const number = element.getAttribute("data-i18n-num");
+
+  const words = translations[key];
+
+  element.innerText =
+    number +
+    " " +
+    words[
+      number % 100 > 4 && number % 100 < 20
+        ? 2
+        : [2, 0, 1, 1, 1, 2][number % 10 < 5 ? Math.abs(number) % 10 : 5]
+    ];
+};
+
 const translateDate = (element) => {
   const ISOString = element.getAttribute("data-i18n-date");
   element.innerText = formatDate(ISOString);
 };
 
+const translateLetterDate = (element) => {
+  const ISOString = element.getAttribute("data-i18n-letter-date");
+  element.innerText = formatLetterDate(ISOString);
+};
+
 const translatePage = () => {
   document.querySelectorAll("[data-i18n-key]").forEach(translateElement);
+  document.querySelectorAll("[data-i18n-declination]").forEach(translateDeclination);
   document.querySelectorAll("[data-i18n-date]").forEach(translateDate);
+  document.querySelectorAll("[data-i18n-letter-date]").forEach(translateLetterDate);
 };
 
 const setLocale = async (newLocale) => {
@@ -67,32 +90,23 @@ const formatDate = (ISOString) => {
   return d.toLocaleDateString(locale === "ru" ? "ru-RU" : "en-EN", { dateStyle: "short" });
 };
 
-const letterDate = (ISOString) => {
+const formatLetterDate = (ISOString) => {
   //Сегодня, 12:20 или 10 декабря, 12:20
   const d = new Date(ISOString);
   const today = new Date();
-  const dateStr =
-    d.toDateString() === today.toDateString()
-      ? "Сегодня"
-      : d.toLocaleDateString("ru-RU", {
-          month: "long",
-          day: "2-digit",
-        });
 
-  return `${dateStr}, ${d.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" })}`;
+  const timeString = d.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
+
+  if (d.toDateString() === today.toDateString())
+    return `${locale == "ru" ? "Сегодня" : "Today"}, ${timeString}`;
+  else {
+    const dateString = d.toLocaleDateString(locale == "ru" ? "ru-RU" : "en-EN", {
+      month: "long",
+      day: "2-digit",
+    });
+
+    return `${dateString}, ${timeString}`;
+  }
 };
 
-const getDeclination = (number, key) => {
-  const words = translations[key];
-  return (
-    number +
-    " " +
-    words[
-      number % 100 > 4 && number % 100 < 20
-        ? 2
-        : [2, 0, 1, 1, 1, 2][number % 10 < 5 ? Math.abs(number) % 10 : 5]
-    ]
-  );
-};
-
-export { initI18n, formatDate, letterDate, getDeclination, translateElement };
+export { initI18n, translateElement, translateDeclination, translateDate, translateLetterDate };

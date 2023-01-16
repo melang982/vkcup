@@ -1,15 +1,5 @@
 import "./UserAvatar";
 import { addChild } from "../utils";
-import { formatDate } from "../i18n";
-
-const categories = new Map([
-  ["Заказы", "shopping"],
-  ["Финансы", "money"],
-  ["Регистрации", "key"],
-  ["Путешествия", "plane"],
-  ["Билеты", "ticket"],
-  ["Штрафы и налоги", "government"],
-]);
 
 class LetterItem extends HTMLElement {
   constructor() {
@@ -27,11 +17,8 @@ class LetterItem extends HTMLElement {
 
     dot.addEventListener("click", (e) => e.preventDefault()); //не открываем письмо
 
-    const avatar = document.createElement("user-avatar");
-    if (this.item.author.avatar) avatar.setAttribute("src", this.item.author.avatar);
-    else if (this.item.author.name)
-      avatar.setAttribute("initials", this.item.author.name.charAt(0));
-    link.appendChild(avatar);
+    addChild(link, "user-avatar", null, null, null, { author: this.item.author });
+
     addChild(link, "input", null, null, { type: "checkbox" });
 
     addChild(
@@ -51,11 +38,12 @@ class LetterItem extends HTMLElement {
     addChild(content, "span", "letter-item__title", this.item.title);
     addChild(content, "span", "letter-item__text", this.item.text);
 
-    if (this.item.flag)
+    if (this.item.flag) {
       addChild(link, "img", null, null, {
-        src: `/icons/categories/${categories.get(this.item.flag)}.svg`,
-        alt: categories.get(this.item.flag) + " icon",
+        src: `/icons/${this.item.flag}.svg`,
+        alt: `${this.item.flag} icon`,
       });
+    }
 
     if (this.item.doc) {
       const attachButton = addChild(link, "button", "btn-attach", null);
@@ -65,9 +53,14 @@ class LetterItem extends HTMLElement {
         //попап с вложениями:
         document.querySelectorAll("letter-item").forEach((btn) => btn.classList.remove("active"));
         const popup = document.getElementById("attach__popup");
-        popup
-          .querySelectorAll("img")
-          .forEach((img) => img.setAttribute("src", `/attachments/${this.item.id}.jpg`));
+
+        const url = `/attachments/${this.item.id}.jpg`;
+
+        popup.querySelectorAll("img").forEach((img) => img.setAttribute("src", url));
+        popup.querySelector(".attachment").setAttribute("href", url);
+        document.getElementById("attach__preview").setAttribute("href", url);
+
+        document.getElementById("attach__size").innerHTML = this.item.doc;
         popup.style.display = "block";
         attachButton.appendChild(popup);
         this.classList.add("active");
@@ -76,7 +69,7 @@ class LetterItem extends HTMLElement {
       });
     }
 
-    addChild(link, "span", "letter-item__date footnote", formatDate(this.item.date), {
+    addChild(link, "span", "letter-item__date footnote", null, {
       "data-i18n-date": this.item.date,
     });
   }

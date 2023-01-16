@@ -57,7 +57,7 @@ a {
 }
 
 svg-icon {
-  display: flex;
+  display: inline-flex;
 }
 
 .attachment__text a {
@@ -113,10 +113,6 @@ svg-icon {
 
 .attachment:hover {
   background: var(--transparent-hover);
-}
-
-.attachment:hover + #attach__preview {
-  display: block;
 }
 
 #attach__preview {
@@ -197,6 +193,16 @@ header {
   padding: 0 16px;
   margin-bottom: 12px;
   filter: drop-shadow(0px 0px 16px rgba(2, 13, 41, 0.12));
+}
+
+#btn-back {
+  display: none;
+  align-items: center;
+  color: var(--header-text);
+}
+
+#btn-back svg-icon {
+  margin: 0 12px;
 }
 
 svg-icon[name="logo"] use {
@@ -405,7 +411,7 @@ letter-item > a:hover [name="exclamation"] {
 single-letter {
   display: block;
   position: relative;
-  padding: 0 32px 32px;
+  padding: 16px 32px 32px;
   border-radius: 12px;
 }
 
@@ -421,12 +427,84 @@ single-letter .unread-dot {
   left: -19px;
 }
 
-.letter__header .avatar {
+.letter__header user-avatar {
   margin-right: 12px;
 }
 
-.letter__header span {
+.letter__header .letter__date {
   margin-left: 8px;
+}
+
+.letter__recipients {
+  margin-top: 3px;
+}
+
+.letter__recipients a {
+  text-decoration: underline;
+}
+
+.letter__category {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  right: 24px;
+  top: 22px;
+  font-size: 13px;
+}
+
+.letter__attachment {
+  position: relative;
+  display: block;
+  width: 256px;
+  height: 190px;
+  cursor: pointer;
+}
+
+.letter__attachment img {
+  display: block;
+  width: 256px;
+  height: 190px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.letter__download {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: linear-gradient(
+    0deg,
+    rgba(236, 237, 240, 0.95) 56.81%,
+    rgba(236, 237, 240, 0) 104.46%
+  );
+  border-radius: 0 0 12px 12px;
+}
+
+.letter__download svg-icon {
+  margin-right: 8px;
+}
+
+.letter__attachment:hover .letter__download {
+  display: flex;
+}
+
+.attachment__text {
+  margin: 8px 0 28px;
+  font-size: 13px;
+}
+
+.attachment__text a {
+  margin-left: 16px;
+  color: var(--text-link);
+}
+
+.attachment__size {
+  color: var(--text-secondary);
 }
 
 @media only screen and (min-width: 769px) {

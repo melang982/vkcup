@@ -1,7 +1,6 @@
 import "./LetterItem.js";
 import { getLetters } from "../api/api.js";
 import { addChild } from "../utils";
-import { translateElement } from "../i18n/index.js";
 
 class LetterList extends HTMLElement {
   constructor() {
@@ -30,7 +29,6 @@ class LetterList extends HTMLElement {
           height: "100",
         });
         const el = addChild(notFound, "span", null, null, { "data-i18n-key": "not-found" });
-        translateElement(el);
       } else
         for (let item of jsonData.data)
           addChild(this, "letter-item", null, null, { folderSlug: folderSlug }, { item: item });

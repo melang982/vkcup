@@ -1,5 +1,6 @@
 import { filterOnRouteChange } from "../filters";
 import { folders } from "../constants";
+import { translateElement } from "../i18n";
 import "../components/LetterList";
 import "../components/SingleLetter";
 
@@ -14,21 +15,37 @@ const router = async () => {
 
   const [, folder, id] = url.match(/\/([^\/]+)(?:\/([0-9]+))?/) || [];
 
+  const title = document.querySelector("title");
+
   let view = "";
   if (!folder || !folders.includes(folder)) view = "404";
-  else if (!id)
+  else if (!id) {
+    //папка
+    title.setAttribute("data-i18n-key", folder);
+    translateElement(title);
     view = `<letter-list folderSlug=${folder}></letter-list><div id="infinite-scroll"></div>`;
-  else view = `<single-letter id=${id} />`;
 
-  document.querySelector("#app").innerHTML = view;
+    document.getElementById("btn-back").style.display = "none";
+    document.getElementById("btn-filter").style.display = "flex";
+    document.getElementById("logo").style.display = "block";
+    //document.title = newTitle;
+  } else {
+    //отдельное письмо
+    title.removeAttribute("data-i18n-key");
+    title.innerHTML = "Mail.ru";
+    view = `<single-letter id=${id} />`;
+    document.getElementById("btn-back").style.display = "flex";
+    document.getElementById("btn-filter").style.display = "none";
+    document.getElementById("logo").style.display = "none";
+  }
+
+  document.getElementById("app").innerHTML = view;
 
   //highlight active link:
-  const links = document.querySelectorAll(".folder");
-  for (let link of links) {
-    if (link.href == document.URL) link.classList.add("active");
+  for (let link of document.querySelectorAll(".folder")) {
+    if (folder && link.href.includes(folder)) link.classList.add("active");
     else link.classList.remove("active");
   }
-  if (location.pathname == "/") document.querySelector(".folder").classList.add("active");
 
   filterOnRouteChange();
 };
@@ -47,6 +64,8 @@ const initRouter = () => {
     });
     router();
   });
+
+  document.getElementById("btn-back").addEventListener("click", () => history.back());
 };
 
 export { initRouter, navigateTo };
