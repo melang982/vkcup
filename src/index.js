@@ -61,6 +61,7 @@ const toggleDrawer = (newValue) => {
 
 document.getElementById("btn-settings").addEventListener("click", (e) => {
   toggleDrawer(true);
+  document.querySelectorAll(".lazy").forEach((el) => el.classList.remove("lazy"));
   closeFilterPopup();
   e.stopPropagation();
 });

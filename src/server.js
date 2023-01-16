@@ -14,6 +14,7 @@ const MIME_TYPES = {
   gif: "image/gif",
   ico: "image/x-icon",
   svg: "image/svg+xml",
+  json: "application/json",
 };
 
 const STATIC_PATH = path.join(process.cwd(), "./");
@@ -26,7 +27,6 @@ const saveAsJpg = (base64, id) => {
   let buffer = Buffer.from(image, "base64");
   fs.writeFile(`attachments/${id}.jpg`, buffer, function (err) {
     if (err) console.log(err);
-    // else  console.log("file is created");
   });
 };
 
@@ -38,6 +38,8 @@ const prepareFile = async (url) => {
   if (
     !url.includes("assets") &&
     !url.includes("icons") &&
+    !url.includes("images") &&
+    !url.includes("translations") &&
     !url.includes("attachments") &&
     url != "/favicon.svg"
   ) {

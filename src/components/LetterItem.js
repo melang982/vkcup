@@ -42,6 +42,8 @@ class LetterItem extends HTMLElement {
       addChild(link, "img", null, null, {
         src: `/icons/${this.item.flag}.svg`,
         alt: `${this.item.flag} icon`,
+        width: 20,
+        height: 20,
       });
     }
 

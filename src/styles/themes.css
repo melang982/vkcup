@@ -45,7 +45,7 @@
 
 .anime {
   background: linear-gradient(180deg, rgba(117, 0, 69, 0.64) 0%, rgba(0, 9, 83, 0.64) 100%),
-    url(anime.png), #ffffff;
+    url(/images/anime.png), #ffffff;
   background-repeat: repeat;
   background-position: 50% 0;
   background-attachment: fixed;
@@ -69,7 +69,10 @@
 }
 
 .dark .not-found div {
-  background-image: -webkit-image-set(url(/notfound-dark.png) 1x, url(/notfound-dark2x.png) 2x);
+  background-image: -webkit-image-set(
+    url(/images/notfound-dark.png) 1x,
+    url(/images/notfound-dark2x.png) 2x
+  );
 }
 
 .dark .letter__download {

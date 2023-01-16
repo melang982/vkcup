@@ -96,7 +96,7 @@
             <input type="radio" name="theme" value="default" />
             <svg-icon name="logo" width="96" height="32"></svg-icon>
           </label>
-          <input type="radio" name="theme" value="anime" />
+          <input type="radio" name="theme" class="lazy" value="anime" />
         </div>
       </div>
       <div id="settings__language">
@@ -104,12 +104,12 @@
         <form id="language-form">
           <label>
             <input type="radio" name="language" value="ru" checked />
-            <img src="/icons/ru.svg" alt="Russia flag" />
+            <img src="/icons/ru.svg" width="15" height="12" alt="Russia flag" />
             Русский
           </label>
           <label>
             <input type="radio" name="language" value="en" />
-            <img src="/icons/usa.svg" alt="USA flag" />
+            <img src="/icons/usa.svg" loading="lazy" alt="USA flag" />
             English
           </label>
           <button id="btn-apply-language" data-i18n-key="choose-language"></button>

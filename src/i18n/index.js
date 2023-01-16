@@ -5,7 +5,7 @@ let translations = {};
 let hasTranslations = false;
 
 const fetchTranslationsFor = async (newLocale) => {
-  const response = await fetch(`/${newLocale}.json`);
+  const response = await fetch(`/translations/${newLocale}.json`);
   return await response.json();
 };
 

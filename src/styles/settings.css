@@ -101,7 +101,14 @@
 }
 
 #settings__theme input[value="anime"] {
-  background-image: -webkit-image-set(url(/anime-thumb.png) 1x, url(/anime-thumb2x.png) 2x);
+  background-image: -webkit-image-set(
+    url(/images/anime-thumb.png) 1x,
+    url(/images/anime-thumb2x.png) 2x
+  );
+}
+
+#settings__theme input[value="anime"].lazy {
+  background-image: none;
 }
 
 #settings__theme input:checked:after {

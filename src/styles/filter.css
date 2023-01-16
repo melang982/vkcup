@@ -88,7 +88,7 @@
 .not-found div {
   width: 310px;
   height: 180px;
-  background-image: -webkit-image-set(url(/notfound.png) 1x, url(/notfound2x.png) 2x);
+  background-image: -webkit-image-set(url(/images/notfound.png) 1x, url(/images/notfound2x.png) 2x);
   margin-bottom: 20px;
 }
 
