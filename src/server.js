@@ -1,6 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const zlib = require("zlib");
 
 const PORT = 3000;
 
@@ -142,6 +143,8 @@ fs.readFile("db.json", function (err, data) {
       }
     };
 
+    const acceptEncoding = req.headers["accept-encoding"];
+
     if (req.url.startsWith("/api")) {
       if (req.url.match(/\/api\/([a-z]+)\/([0-9]+)/) && req.method === "GET") {
         //отдельное письмо
@@ -187,10 +190,22 @@ fs.readFile("db.json", function (err, data) {
       const file = await prepareFile(req.url);
       const statusCode = file.found ? 200 : 404;
       const mimeType = MIME_TYPES[file.ext] || MIME_TYPES.default;
-      res.writeHead(statusCode, { "Content-Type": mimeType });
+      const shouldCompress = file.found && ["js", "css", "json"].includes(file.ext);
 
-      file.stream.pipe(res);
-      //console.log(`${req.method} ${req.url} ${statusCode}`);
+      if (shouldCompress && acceptEncoding && acceptEncoding.indexOf("br") !== -1) {
+        res.writeHead(statusCode, { "Content-Encoding": "br", "Content-Type": mimeType });
+
+        const gzip = zlib.createBrotliCompress();
+        file.stream.pipe(gzip).pipe(res);
+      } else if (shouldCompress && acceptEncoding && acceptEncoding.indexOf("gzip") !== -1) {
+        res.writeHead(statusCode, { "Content-Encoding": "gzip", "Content-Type": mimeType });
+
+        const gzip = zlib.createGzip();
+        file.stream.pipe(gzip).pipe(res);
+      } else {
+        res.writeHead(statusCode, { "Content-Type": mimeType });
+        file.stream.pipe(res);
+      }
     }
   });
 
