@@ -1,0 +1,41 @@
+#modal__background {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: #00000075;
+  z-index: 10;
+}
+
+#editor__modal {
+  display: block;
+  width: 700px;
+  height: 700px;
+}
+
+#editor__buttons {
+  padding: 8px 10px;
+}
+
+#editor__buttons button {
+  padding: 0 8px;
+  opacity: 0.48;
+}
+
+#editor__buttons button:hover,
+#editor__buttons button.active {
+  opacity: 0.88;
+}
+
+#editor__buttons use {
+  fill: var(--sidebar-text-primary);
+}
+
+#editor__content {
+  padding: 0 20px;
+  outline: none;
+}

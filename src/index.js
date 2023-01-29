@@ -2,16 +2,20 @@ import "./styles/index.css";
 import "./styles/settings.css";
 import "./styles/themes.css";
 import "./styles/filter.css";
+import "./styles/editor.css";
 import { initRouter } from "./router";
 import { initI18n } from "./i18n";
 import { initFilters, closeFilterPopup } from "./filters";
+import { initEditor } from "./editor";
 import { addChild } from "./utils";
 import { folders, themeColorsLight, themeColorsDark } from "./constants";
+
 import "./components/SvgIcon";
 
 initRouter();
 initI18n();
 initFilters();
+initEditor();
 
 //Создаем кнопки с папками:
 document.getElementById("folders").innerHTML += folders
