@@ -1,6 +1,6 @@
 #modal__background {
   position: fixed;
-  display: flex;
+  display: none; /*flex*/
   align-items: center;
   justify-content: center;
   left: 0;

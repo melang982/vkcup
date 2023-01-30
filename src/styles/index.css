@@ -265,6 +265,7 @@ nav .active {
 letter-list {
   display: block;
   border-radius: 12px;
+  overflow-y: scroll;
 }
 
 letter-item > a {
