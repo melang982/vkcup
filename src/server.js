@@ -73,13 +73,13 @@ fs.readFile("db.json", function (err, data) {
   const emails = JSON.parse(data);
 
   const FOLDER_NAMES = new Map([
-    [undefined, 0],
-    ["Важное", 1],
-    ["Отправленные", 2],
-    ["Черновики", 3],
-    ["Архив", 4],
-    ["Спам", 5],
-    ["Корзина", 6],
+    [undefined, "inbox"],
+    ["Важное", "important"],
+    ["Отправленные", "sent"],
+    ["Черновики", "drafts"],
+    ["Архив", "archive"],
+    ["Спам", "spam"],
+    ["Корзина", "trash"],
   ]);
 
   const CATEGORIES = {
@@ -92,8 +92,8 @@ fs.readFile("db.json", function (err, data) {
     Финансы: "money",
   };
 
-  const folders = []; //отсортируем письма по папкам один раз
-  for (let i = 0; i < FOLDER_NAMES.size; i++) folders.push([]);
+  const folders = {}; //отсортируем письма по папкам один раз
+  for (let value of FOLDER_NAMES.values()) folders[value] = [];
 
   emails.forEach((email, index) => {
     if (email.flag) email.flag = CATEGORIES[email.flag];
@@ -112,28 +112,18 @@ fs.readFile("db.json", function (err, data) {
     if (textLength > 0) clone.text = clone.text.substring(0, textLength); //отрезаем лишний текст
     else clone.text = "";
 
-    if (!clone.folder) folders[0].push(clone);
+    if (!clone.folder) folders["inbox"].push(clone);
     else folders[FOLDER_NAMES.get(clone.folder)].push(clone);
   });
 
-  for (let i = 0; i < FOLDER_NAMES.size; i++) {
+  for (let value of FOLDER_NAMES.values()) {
     //сортируем по дате
-    folders[i].sort((a, b) => {
+    folders[value].sort((a, b) => {
       return new Date(b.date) - new Date(a.date);
     });
   }
 
   const PAGE_SIZE = 20;
-
-  const FOLDER_SLUGS = new Map([
-    ["inbox", 0],
-    ["important", 1],
-    ["sent", 2],
-    ["drafts", 3],
-    ["archive", 4],
-    ["spam", 5],
-    ["trash", 6],
-  ]);
 
   const server = http.createServer(async (req, res) => {
     const onError = (err) => {
@@ -146,7 +136,26 @@ fs.readFile("db.json", function (err, data) {
     const acceptEncoding = req.headers["accept-encoding"];
 
     if (req.url.startsWith("/api")) {
-      if (req.url.match(/\/api\/([a-z]+)\/([0-9]+)/) && req.method === "GET") {
+      //console.log(req.url);
+      if (req.url === "/api/send" && req.method === "POST") {
+        //отправка письма
+        let body = "";
+        req.on("data", (buffer) => {
+          body += buffer.toString(); // convert Buffer to string
+        });
+        req.on("end", () => {
+          const bodyJson = JSON.parse(body);
+          const newLetter = {
+            author: { name: "Лариса", surname: "Тюленева" },
+            title: bodyJson.title,
+            text: bodyJson.text,
+            date: new Date().toISOString(),
+          };
+          folders["sent"].unshift(newLetter);
+          res.writeHead(201, { "Content-Type": "application/json" });
+          res.end(JSON.stringify(newLetter));
+        });
+      } else if (req.url.match(/\/api\/([a-z]+)\/([0-9]+)/) && req.method === "GET") {
         //отдельное письмо
         const id = req.url.split("/")[3];
 
@@ -164,16 +173,15 @@ fs.readFile("db.json", function (err, data) {
         const filter_flagged = queryParams.get("filter_flagged");
         const filter_with_attachments = queryParams.get("filter_with_attachments");
 
-        const folderIndex = FOLDER_SLUGS.get(folderSlug);
         const filtered =
           filter_unread || filter_flagged || filter_with_attachments
-            ? folders[folderIndex].filter((x) => {
+            ? folders[folderSlug].filter((x) => {
                 if (filter_unread && x.read) return false;
                 if (filter_flagged && !x.bookmark) return false;
                 if (filter_with_attachments && !x.doc) return false;
                 return true;
               })
-            : folders[folderIndex];
+            : folders[folderSlug];
         const result = {
           data: filtered.slice(cursor, cursor + PAGE_SIZE),
         };
@@ -183,7 +191,7 @@ fs.readFile("db.json", function (err, data) {
         res.end(JSON.stringify(result));
       } else {
         res.writeHead(404, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ message: "Route not found" }));
+        res.end(JSON.stringify({ message: "API route not found" }));
       }
     } //статика
     else {

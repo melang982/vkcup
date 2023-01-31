@@ -1,7 +1,7 @@
 import { addChild } from "../utils";
 import { translateElement } from "../i18n";
 import { initEditor } from "../editor";
-
+import { sendLetter } from "../api/api.js";
 class ComposeButton extends HTMLElement {
   constructor() {
     super();
@@ -28,6 +28,11 @@ class ComposeButton extends HTMLElement {
 
     document.getElementById("editor__modal").addEventListener("click", (e) => {
       e.dontCloseModal = true;
+    });
+
+    document.getElementById("editor__send").addEventListener("click", () => {
+      sendLetter({ title: "hello title", text: "hello text" });
+      this.close(); //td: дождаться ответа
     });
 
     initEditor();

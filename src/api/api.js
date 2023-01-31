@@ -1,4 +1,24 @@
 const apiCache = {};
+import { navigateTo } from "../router";
+
+const sendLetter = (letter) => {
+  fetch("/api/send", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(letter),
+  }).then((response) => {
+    if (response.status == 201) {
+      Object.keys(apiCache).forEach((key) => {
+        if (key.startsWith("/api/sent")) delete apiCache[key];
+      });
+
+      if (location.pathname == "/sent") navigateTo("/sent");
+    }
+  });
+};
 
 const getWithCache = (url) => {
   return new Promise((resolve, reject) => {
@@ -24,4 +44,4 @@ const getLetters = (folderSlug, cursor = 0) => {
 
 const getSingleLetter = (id) => getWithCache(`/api/mail/${id}`);
 
-export { getLetters, getSingleLetter };
+export { getLetters, getSingleLetter, sendLetter };
