@@ -15,7 +15,7 @@ const addChild = (
 ) => {
   const el = document.createElement(tag);
   if (className) el.className = className;
-  if (textContent) el.innerText = textContent;
+  if (textContent) el.innerHTML = textContent; //innerText
   if (attrs) {
     for (let key in attrs) el.setAttribute(key, attrs[key]);
 

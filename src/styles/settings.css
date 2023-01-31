@@ -163,14 +163,7 @@ label[for="dark"] use {
 }
 
 #btn-apply-language {
-  display: flex;
-  align-items: center;
   margin-top: 32px;
-  padding: 0 20px;
-  height: 36px;
-  color: var(--white);
-  background: var(--icon-accent);
-  border-radius: 8px;
 }
 
 #settings__language > div {

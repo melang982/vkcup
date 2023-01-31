@@ -1,15 +1,48 @@
 import { addChild } from "../utils";
+import "../components/InputSelect";
 
 const tree = [{ text: "hello world" }];
 const contentEl = document.getElementById("editor__content");
 let buttons = [];
 let location = {};
 
-const styles = {
-  bold: "strong",
-  italic: "em",
-  underline: "u",
-  strike: "s",
+const FONT_SIZES = [8, 10, 11, 12, 13, 14, 15, 16, 18, 24, 36, 48];
+const FONTS = [
+  "Arial",
+  "Verdana",
+  "Georgia",
+  "Times New Roman",
+  "Andale Mono",
+  "Comic Sans MS",
+].map((x) => ({
+  name: x,
+  style: `font-family:${x};`,
+}));
+
+const STYLES = [
+  { name: "bold", tag: "strong" },
+  { name: "italic", tag: "em" },
+  { name: "underline", tag: "u" },
+  { name: "strike", tag: "s" },
+  {
+    name: "fontSize",
+    tag: "span",
+    element: "select",
+    selectProps: { value: 15, options: FONT_SIZES, showValue: true, align: "center" },
+  },
+  {
+    name: "font",
+    tag: "span",
+    element: "select",
+    selectProps: { icon: "font", value: FONTS[0], options: FONTS, optionStyles: true },
+  },
+];
+
+const applyStyle = (style) => {
+  console.log(style);
+  splitNode(location.range.anchor.path, style, true);
+  contentEl.innerHTML = treeToHTML(tree);
+  setCaret();
 };
 
 const initEditor = () => {
@@ -30,32 +63,39 @@ const initEditor = () => {
     updateButtons();
   });
 
-  const buttonsContainer = document.getElementById("editor__buttons");
-  for (let style of Object.keys(styles)) {
-    const btn = addChild(buttonsContainer, "button");
-    buttons.push(btn);
-    addChild(btn, "svg-icon", null, null, {
-      name: style,
-      width: "16",
-      height: "16",
-    });
+  const buttonsContainer = document.getElementById("editor__toolbar");
 
-    btn.addEventListener("mousedown", (e) => {
-      e.preventDefault();
-      //return setTimeout("", 300);
-    });
+  for (let style of STYLES) {
+    if (style.element === "select")
+      addChild(buttonsContainer, "input-select", null, null, null, {
+        ...style.selectProps,
+        onChange: (value) => {
+          applyStyle({ ...style, value: value });
+        },
+      });
+    else {
+      const btn = addChild(buttonsContainer, "button");
+      buttons.push(btn);
+      addChild(btn, "svg-icon", null, null, {
+        name: style.name,
+        width: "16",
+        height: "16",
+      });
 
-    btn.addEventListener("click", (e) => {
-      //console.log("style button", style);
-      splitNode(location.range.anchor.path, style, true);
-      contentEl.innerHTML = treeToHTML(tree);
-      setCaret();
-    });
+      btn.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        //return setTimeout("", 300);
+      });
+
+      btn.addEventListener("click", () => {
+        applyStyle(style);
+      });
+    }
   }
 };
 
 const getSelectionStyles = () => {
-  let commonStyles = [...Object.keys(styles)];
+  let commonStyles = STYLES.map((s) => s.name);
   const startNode = getNodeByPath(location.range.anchor.path);
   const finishNode = getNodeByPath(location.range.focus.path);
 
@@ -78,7 +118,7 @@ const getNodeStyles = (node) => {
   let currentNode = node;
   while (currentNode) {
     if (currentNode.style) {
-      styles.push(currentNode.style);
+      styles.push(currentNode.style.name);
     }
     currentNode = currentNode.parent;
   }
@@ -87,10 +127,12 @@ const getNodeStyles = (node) => {
 
 const updateButtons = () => {
   const selectionStyles = getSelectionStyles();
-  //console.log(node);
-  Object.keys(styles).forEach((style, index) => {
-    if (selectionStyles.includes(style)) buttons[index].classList.add("active");
-    else buttons[index].classList.remove("active");
+
+  STYLES.forEach((style, index) => {
+    if (!style.element) {
+      if (selectionStyles.includes(style.name)) buttons[index].classList.add("active");
+      else buttons[index].classList.remove("active");
+    }
   });
 };
 
@@ -286,10 +328,18 @@ const getCaret = () => {
 const treeToHTML = (tree) => {
   let html = "";
   for (let node of tree) {
-    if (node.style) html += `<${styles[node.style]}>`;
+    let attr = "";
+
+    if (node.style) {
+      if (node.style.value?.style) attr = ` style="${node.style.value.style}"`;
+      else if (node.style.name === "fontSize") attr = ` style="font-size:${node.style.value}px;"`;
+      html += `<${node.style.tag}${attr}>`;
+    }
+
     if (node.children) html += treeToHTML(node.children);
     else html += node.text;
-    if (node.style) html += `</${styles[node.style]}>`;
+
+    if (node.style) html += `</${node.style.tag}>`;
   }
 
   return html;

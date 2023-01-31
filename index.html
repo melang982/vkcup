@@ -17,8 +17,17 @@
       <div id="wrap">
         <div id="modal__background">
           <div id="editor__modal" class="popup">
-            <div id="editor__buttons"></div>
+            <button id="editor__attach">
+              <svg-icon name="attach" width="24" height="24"></svg-icon>
+              <span data-i18n-key="attach"></span>
+            </button>
+            <div id="editor__toolbar"></div>
             <div id="editor__content" contenteditable="true"></div>
+            <div id="editor__actions">
+              <button class="btn-action btn-primary" data-i18n-key="send"></button>
+              <button class="btn-action" data-i18n-key="save"></button>
+              <button class="btn-action" data-i18n-key="cancel"></button>
+            </div>
           </div>
         </div>
         <header id="header">
@@ -118,7 +127,11 @@
             <img src="/icons/usa.svg" loading="lazy" alt="USA flag" />
             English
           </label>
-          <button id="btn-apply-language" data-i18n-key="choose-language"></button>
+          <button
+            id="btn-apply-language"
+            class="btn-action btn-primary"
+            data-i18n-key="choose-language"
+          ></button>
         </form>
       </div>
     </div>

@@ -1,6 +1,6 @@
 #modal__background {
   position: fixed;
-  display: none; /*flex*/
+  display: flex;
   align-items: center;
   justify-content: center;
   left: 0;
@@ -13,29 +13,80 @@
 
 #editor__modal {
   display: block;
+  position: relative;
   width: 700px;
   height: 700px;
 }
 
-#editor__buttons {
+#editor__attach {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  border-radius: 8px;
+}
+
+#editor__attach:hover {
+  background: var(--transparent-hover);
+}
+
+#editor__toolbar {
   padding: 8px 10px;
 }
 
-#editor__buttons button {
+#editor__actions {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  gap: 8px;
+  padding: 16px 20px;
+}
+
+#editor__toolbar button {
   padding: 0 8px;
   opacity: 0.48;
 }
 
-#editor__buttons button:hover,
-#editor__buttons button.active {
+#editor__toolbar button:hover,
+#editor__toolbar button.active,
+input-select:hover svg-icon {
   opacity: 0.88;
 }
 
-#editor__buttons use {
+#editor__toolbar use {
   fill: var(--sidebar-text-primary);
 }
 
 #editor__content {
   padding: 0 20px;
   outline: none;
+}
+
+input-select {
+  cursor: pointer;
+  position: relative;
+}
+
+input-select svg-icon {
+  opacity: 0.48;
+}
+
+.popover {
+  position: absolute;
+  width: max-content;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  background: var(--background-modal);
+  box-shadow: 0px 4px 32px var(--shadow);
+  border-radius: 12px;
+  z-index: 1;
+}
+
+.popover div {
+  padding: 10px 24px 10px 16px;
+}
+
+.popover div:hover {
+  background: var(--transparent-hover);
 }

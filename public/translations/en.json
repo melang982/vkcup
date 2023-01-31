@@ -35,5 +35,10 @@
   "and": "and",
   "download": "Download",
   "recipient": ["recipient", "recipients", "recipients"],
-  "file": ["file", "files", "files"]
+  "file": ["file", "files", "files"],
+
+  "attach": "Attach file",
+  "send": "Send",
+  "save": "Save",
+  "cancel": "Cancel"
 }
