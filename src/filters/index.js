@@ -1,5 +1,5 @@
 import { navigateTo } from "../router";
-import { translateElement } from "../i18n";
+import { translateText } from "../i18n";
 import { addChild } from "../utils";
 
 const filterOptions = {
@@ -110,7 +110,7 @@ const updateFilterLabel = () => {
     resetBtn.style.display = "block";
     currentIcons.innerHTML = checked.map((x) => filterOptions[x.id]).join("");
   }
-  translateElement(currentFilter);
+  translateText(currentFilter);
 };
 
 export { initFilters, filterOnRouteChange, closeFilterPopup };

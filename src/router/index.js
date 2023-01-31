@@ -1,6 +1,6 @@
 import { filterOnRouteChange } from "../filters";
 import { folders } from "../constants";
-import { translateElement } from "../i18n";
+import { translateText } from "../i18n";
 import "../components/LetterList";
 import "../components/SingleLetter";
 
@@ -22,7 +22,7 @@ const router = async () => {
   else if (!id) {
     //папка
     title.setAttribute("data-i18n-key", folder);
-    translateElement(title);
+    translateText(title);
     view = `<letter-list folderSlug=${folder}></letter-list><div id="infinite-scroll"></div>`;
 
     document.getElementById("btn-back").style.display = "none";

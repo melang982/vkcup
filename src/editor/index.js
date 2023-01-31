@@ -2,7 +2,8 @@ import { addChild } from "../utils";
 import "../components/InputSelect";
 
 const tree = [{ text: "hello world" }];
-const contentEl = document.getElementById("editor__content");
+
+let contentEl = null;
 let buttons = [];
 let location = {};
 
@@ -46,6 +47,7 @@ const applyStyle = (style) => {
 };
 
 const initEditor = () => {
+  contentEl = document.getElementById("editor__content");
   contentEl.innerHTML = treeToHTML(tree);
 
   contentEl.addEventListener("input", (e) => {

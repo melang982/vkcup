@@ -64,7 +64,7 @@ class LetterList extends HTMLElement {
             //добавляем элемент
             const child = document.createElement("letter-item");
             child.item = toAdd[j++];
-            child.folderSlug = folderSlug;
+            child.setAttribute("folderSlug", folderSlug);
             offset.insertBefore(child, children[i]);
             merged.push(child);
           }
@@ -74,10 +74,14 @@ class LetterList extends HTMLElement {
 
         while (j < toAdd.length) {
           //добавляем элемент
-          const child = document.createElement("letter-item");
-          child.item = toAdd[j++];
-          child.folderSlug = folderSlug;
-          offset.appendChild(child);
+          const child = addChild(
+            offset,
+            "letter-item",
+            null,
+            null,
+            { folderSlug: folderSlug },
+            { item: toAdd[j++] }
+          );
           merged.push(child);
         }
 

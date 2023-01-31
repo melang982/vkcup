@@ -15,21 +15,23 @@
   <body>
     <div id="theme">
       <div id="wrap">
-        <div id="modal__background">
-          <div id="editor__modal" class="popup">
-            <button id="editor__attach">
-              <svg-icon name="attach" width="24" height="24"></svg-icon>
-              <span data-i18n-key="attach"></span>
-            </button>
-            <div id="editor__toolbar"></div>
-            <div id="editor__content" contenteditable="true"></div>
-            <div id="editor__actions">
-              <button class="btn-action btn-primary" data-i18n-key="send"></button>
-              <button class="btn-action" data-i18n-key="save"></button>
-              <button class="btn-action" data-i18n-key="cancel"></button>
+        <template id="modal">
+          <div id="modal__background">
+            <div id="editor__modal" class="popup">
+              <button id="editor__attach">
+                <svg-icon name="attach" width="24" height="24"></svg-icon>
+                <span data-i18n-key="attach"></span>
+              </button>
+              <div id="editor__toolbar"></div>
+              <div id="editor__content" contenteditable="true"></div>
+              <div id="editor__actions">
+                <button class="btn-action btn-primary" data-i18n-key="send"></button>
+                <button class="btn-action" data-i18n-key="save"></button>
+                <button class="btn-action" data-i18n-key="cancel"></button>
+              </div>
             </div>
           </div>
-        </div>
+        </template>
         <header id="header">
           <a id="logo" href="/" data-link>
             <svg-icon name="logo" width="96" height="32"></svg-icon>
@@ -47,10 +49,7 @@
         </header>
         <div class="columns">
           <nav id="nav">
-            <button id="btn-compose">
-              <span data-i18n-key="compose"></span>
-              <svg-icon name="compose" width="17" height="18"></svg-icon>
-            </button>
+            <compose-button></compose-button>
             <div id="folders">
               <a class="folder nav-btn" id="mobile-menu" data-link="" href="/#">
                 <svg-icon name="menu" width="21" height="22"></svg-icon>

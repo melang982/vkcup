@@ -1,9 +1,4 @@
-import {
-  translateElement,
-  translateDeclination,
-  translateDate,
-  translateLetterDate,
-} from "../i18n";
+import { translateText, translateDeclination, translateDate, translateLetterDate } from "../i18n";
 
 const addChild = (
   parent,
@@ -19,7 +14,7 @@ const addChild = (
   if (attrs) {
     for (let key in attrs) el.setAttribute(key, attrs[key]);
 
-    if (attrs["data-i18n-key"]) translateElement(el);
+    if (attrs["data-i18n-key"]) translateText(el);
     if (attrs["data-i18n-declination"]) translateDeclination(el);
     if (attrs["data-i18n-date"]) translateDate(el);
     if (attrs["data-i18n-letter-date"]) translateLetterDate(el);

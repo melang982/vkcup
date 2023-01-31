@@ -172,7 +172,7 @@ letter-item.active > a {
   font-weight: 700;
 }
 
-#btn-compose,
+.btn-compose,
 #btn-new-folder {
   display: flex;
   align-items: center;
@@ -180,7 +180,7 @@ letter-item.active > a {
   height: 36px;
 }
 
-#btn-compose {
+.btn-compose {
   justify-content: center;
   margin-bottom: 12px;
   box-sizing: border-box;
@@ -192,11 +192,11 @@ letter-item.active > a {
   color: var(--compose);
 }
 
-#btn-compose svg-icon {
+.btn-compose svg-icon {
   display: none;
 }
 
-#btn-compose use {
+.btn-compose use {
   fill: var(--compose);
 }
 

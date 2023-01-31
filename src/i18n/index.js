@@ -9,7 +9,7 @@ const fetchTranslationsFor = async (newLocale) => {
   return await response.json();
 };
 
-const translateElement = (element) => {
+const translateText = (element) => {
   if (!hasTranslations) return; //если еще не скачали переводы, переведем этот элемент когда скачаем вместе со всеми
   const key = element.getAttribute("data-i18n-key");
   element.innerText = translations[key];
@@ -41,8 +41,15 @@ const translateLetterDate = (element) => {
   element.innerText = formatLetterDate(ISOString);
 };
 
+const translateElement = (element) => {
+  element.querySelectorAll("[data-i18n-key]").forEach(translateText);
+  element.querySelectorAll("[data-i18n-declination]").forEach(translateDeclination);
+  element.querySelectorAll("[data-i18n-date]").forEach(translateDate);
+  element.querySelectorAll("[data-i18n-letter-date]").forEach(translateLetterDate);
+};
+
 const translatePage = () => {
-  document.querySelectorAll("[data-i18n-key]").forEach(translateElement);
+  document.querySelectorAll("[data-i18n-key]").forEach(translateText);
   document.querySelectorAll("[data-i18n-declination]").forEach(translateDeclination);
   document.querySelectorAll("[data-i18n-date]").forEach(translateDate);
   document.querySelectorAll("[data-i18n-letter-date]").forEach(translateLetterDate);
@@ -109,4 +116,11 @@ const formatLetterDate = (ISOString) => {
   }
 };
 
-export { initI18n, translateElement, translateDeclination, translateDate, translateLetterDate };
+export {
+  initI18n,
+  translateElement,
+  translateText,
+  translateDeclination,
+  translateDate,
+  translateLetterDate,
+};
