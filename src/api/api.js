@@ -1,6 +1,14 @@
 const apiCache = {};
 import { navigateTo } from "../router";
 
+const getContacts = () => {
+  return new Promise((resolve, reject) => {
+    fetch("/api/contacts")
+      .then((response) => response.json())
+      .then((jsonData) => resolve(jsonData));
+  });
+};
+
 const sendLetter = (letter) => {
   fetch("/api/send", {
     method: "POST",
@@ -44,4 +52,4 @@ const getLetters = (folderSlug, cursor = 0) => {
 
 const getSingleLetter = (id) => getWithCache(`/api/mail/${id}`);
 
-export { getLetters, getSingleLetter, sendLetter };
+export { getLetters, getSingleLetter, sendLetter, getContacts };

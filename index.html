@@ -13,29 +13,42 @@
     <title>Mail.ru</title>
   </head>
   <body>
-    <div id="theme">
-      <div id="wrap">
-        <template id="modal">
-          <div id="modal__background">
-            <div id="editor__modal" class="popup">
+    <template id="modal">
+      <div id="modal__background">
+        <div id="editor__modal" class="popup">
+          <form id="editor__form">
+            <div id="editor__fields">
+              <input-contacts id="editor__to" class="editor__row"></input-contacts>
+              <div class="editor__row">
+                <label for="title" data-i18n-key="title"></label>
+                <input type="text" id="title" />
+              </div>
+            </div>
+            <div class="editor__row">
               <button id="editor__attach">
                 <svg-icon name="attach" width="24" height="24"></svg-icon>
                 <span data-i18n-key="attach"></span>
               </button>
-              <div id="editor__toolbar"></div>
-              <div id="editor__content" contenteditable="true"></div>
-              <div id="editor__actions">
-                <button
-                  id="editor__send"
-                  class="btn-action btn-primary"
-                  data-i18n-key="send"
-                ></button>
-                <button class="btn-action" data-i18n-key="save"></button>
-                <button class="btn-action" data-i18n-key="cancel"></button>
-              </div>
             </div>
-          </div>
-        </template>
+            <div id="editor__toolbar"></div>
+            <div id="editor__content" contenteditable="true"></div>
+            <div id="editor__actions">
+              <button
+                id="editor__send"
+                class="btn-action btn-primary"
+                data-i18n-key="send"
+              ></button>
+              <button class="btn-action" data-i18n-key="save"></button>
+              <button class="btn-action" data-i18n-key="cancel"></button>
+              <input id="all" type="checkbox" name="special" value="important" />
+              <svg-icon name="compose-important"></svg-icon>
+            </div>
+          </form>
+        </div>
+      </div>
+    </template>
+    <div id="theme">
+      <div id="wrap">
         <header id="header">
           <a id="logo" href="/" data-link>
             <svg-icon name="logo" width="96" height="32"></svg-icon>

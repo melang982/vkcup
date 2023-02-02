@@ -1,7 +1,7 @@
 import { addChild } from "../utils";
 import { translateElement } from "../i18n";
 import { initEditor } from "../editor";
-import { sendLetter } from "../api/api.js";
+import { getContacts, sendLetter } from "../api/api.js";
 class ComposeButton extends HTMLElement {
   constructor() {
     super();
@@ -12,14 +12,29 @@ class ComposeButton extends HTMLElement {
 
   close() {
     this.isOpen = false;
-    modal.parentElement.removeChild(this.modal);
+    this.modal.parentElement.removeChild(this.modal);
   }
 
   open() {
     this.isOpen = true;
+
+    getContacts().then((contacts) => (document.getElementById("editor__to").options = contacts));
+
     const template = document.getElementById("modal");
     document.getElementById("wrap").appendChild(template.content.cloneNode(true));
     this.modal = document.getElementById("modal__background");
+
+    addChild(
+      document.getElementById("editor__modal"),
+      "user-avatar",
+      "editor__avatar",
+      null,
+      null,
+      {
+        contact: { name: "Л" },
+      }
+    );
+
     translateElement(this.modal);
 
     this.modal.addEventListener("click", (e) => {
@@ -31,9 +46,13 @@ class ComposeButton extends HTMLElement {
     });
 
     document.getElementById("editor__send").addEventListener("click", () => {
-      sendLetter({ title: "hello title", text: "hello text" });
+      const form = document.getElementById("editor__form");
+      console.log(form.elements);
+      sendLetter({ title: form.elements.title.value, text: "hello text" });
       this.close(); //td: дождаться ответа
     });
+
+    document.getElementById("editor__form").onsubmit = (e) => e.preventDefault();
 
     initEditor();
   }

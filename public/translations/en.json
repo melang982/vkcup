@@ -37,6 +37,8 @@
   "recipient": ["recipient", "recipients", "recipients"],
   "file": ["file", "files", "files"],
 
+  "to-whom": "To",
+  "title": "Subject",
   "attach": "Attach file",
   "send": "Send",
   "save": "Save",

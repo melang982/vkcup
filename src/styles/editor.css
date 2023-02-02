@@ -13,24 +13,15 @@
 
 #editor__modal {
   display: block;
-  position: relative;
-  width: 700px;
-  height: 700px;
-}
-
-#editor__attach {
-  display: flex;
-  align-items: center;
-  height: 32px;
-  border-radius: 8px;
-}
-
-#editor__attach:hover {
-  background: var(--transparent-hover);
+  position: absolute;
+  width: 880px;
+  top: 63px;
+  bottom: 31px;
+  padding-top: 13px;
 }
 
 #editor__toolbar {
-  padding: 8px 10px;
+  padding: 16px 10px 12px;
 }
 
 #editor__actions {
@@ -62,12 +53,19 @@ input-select:hover svg-icon {
 }
 
 input-select {
-  cursor: pointer;
   position: relative;
 }
 
 input-select svg-icon {
   opacity: 0.48;
+}
+
+.option {
+  cursor: pointer;
+}
+
+.option:hover {
+  background: var(--transparent-hover);
 }
 
 .popover {
@@ -83,10 +81,112 @@ input-select svg-icon {
   z-index: 1;
 }
 
-.popover div {
+input-select .option {
   padding: 10px 24px 10px 16px;
 }
 
-.popover div:hover {
+input-contacts {
+  display: flex;
+}
+
+input-contacts .popover {
+  max-height: 400px;
+  overflow: auto;
+  top: 30px;
+}
+
+input-contacts .option {
+  display: flex;
+}
+
+input-contacts .option user-avatar {
+  padding: 0 10px;
+}
+
+#editor__modal input {
+  all: unset;
+}
+
+.editor__row {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+#editor__modal label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-right: 13px;
+}
+
+#editor__fields {
+  margin-left: 77px;
+}
+
+.editor__avatar {
+  position: absolute;
+  top: 20px;
+  left: 16px;
+  user-select: none;
+}
+
+.editor__avatar .avatar {
+  width: 48px;
+  height: 48px;
+  font-size: 19px;
+}
+
+.contacts__label {
+  font-size: 13px;
+  color: var(--shadow);
+}
+
+.chips {
+  display: flex;
+}
+
+.contact-chip {
+  display: flex;
+  height: 24px;
+  width: max-content;
+  border-radius: 12px;
+  background: var(--transparent-active);
+  align-items: center;
+  padding: 2px;
+  margin-right: 8px;
+  user-select: none;
+}
+
+.contact-chip button {
+  display: flex;
+}
+
+.contact-chip use {
+  fill: var(--icon-secondary);
+}
+
+.contact-chip .avatar {
+  width: 20px;
+  height: 20px;
+}
+
+.contact-chip span {
+  margin: 0 6px;
+}
+
+.contacts__wrapper {
+  position: relative;
+}
+
+#editor__attach {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  border-radius: 8px;
+  margin-left: 77px;
+}
+
+#editor__attach:hover {
   background: var(--transparent-hover);
 }

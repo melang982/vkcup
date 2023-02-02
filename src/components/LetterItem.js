@@ -17,7 +17,7 @@ class LetterItem extends HTMLElement {
 
     dot.addEventListener("click", (e) => e.preventDefault()); //не открываем письмо
 
-    addChild(link, "user-avatar", null, null, null, { author: this.item.author });
+    addChild(link, "user-avatar", null, null, null, { contact: this.item.author });
 
     addChild(link, "input", null, null, { type: "checkbox" });
 

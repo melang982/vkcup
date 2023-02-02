@@ -1,4 +1,5 @@
 import { addChild } from "../utils";
+import "../components/InputContacts";
 import "../components/InputSelect";
 
 const tree = [{ text: "hello world" }];

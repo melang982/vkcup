@@ -11,7 +11,7 @@ class SingleLetter extends HTMLElement {
       addChild(this, "h1", null, data.title);
       const header = addChild(this, "div", "letter__header");
       if (!data.read) addChild(header, "div", "unread-dot");
-      addChild(header, "user-avatar", null, null, null, { author: data.author });
+      addChild(header, "user-avatar", null, null, null, { contact: data.author });
 
       const column = addChild(header, "div", "letter__header__column");
       addChild(column, "span", null, `${data.author.name} ${data.author.surname}`);

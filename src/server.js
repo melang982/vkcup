@@ -92,12 +92,17 @@ fs.readFile("db.json", function (err, data) {
     Финансы: "money",
   };
 
-  const folders = {}; //отсортируем письма по папкам один раз
+  const folders = {}; //разложим письма по папкам один раз
   for (let value of FOLDER_NAMES.values()) folders[value] = [];
+
+  emails.sort((a, b) => {
+    //сортируем по дате
+    return new Date(b.date) - new Date(a.date);
+  });
 
   emails.forEach((email, index) => {
     if (email.flag) email.flag = CATEGORIES[email.flag];
-    email.id = index; //добавляем id
+    email.id = emails.length - index - 1; //добавляем id
 
     if (email.doc && email.doc.img) {
       //base64 блокирует загрузку страницы и занимает больше места, сохраняем картинки как статику
@@ -116,12 +121,8 @@ fs.readFile("db.json", function (err, data) {
     else folders[FOLDER_NAMES.get(clone.folder)].push(clone);
   });
 
-  for (let value of FOLDER_NAMES.values()) {
-    //сортируем по дате
-    folders[value].sort((a, b) => {
-      return new Date(b.date) - new Date(a.date);
-    });
-  }
+  emails.reverse();
+  let nextId = emails.length;
 
   const PAGE_SIZE = 20;
 
@@ -146,15 +147,26 @@ fs.readFile("db.json", function (err, data) {
         req.on("end", () => {
           const bodyJson = JSON.parse(body);
           const newLetter = {
+            id: nextId,
             author: { name: "Лариса", surname: "Тюленева" },
             title: bodyJson.title,
             text: bodyJson.text,
             date: new Date().toISOString(),
           };
+          emails.push(newLetter);
           folders["sent"].unshift(newLetter);
+          nextId++;
           res.writeHead(201, { "Content-Type": "application/json" });
           res.end(JSON.stringify(newLetter));
         });
+      } else if (req.url === "/api/contacts") {
+        //последние адресаты из Отправленных
+        const recipients = folders["sent"]
+          .slice(0, Math.min(10, folders["sent"].length - 1))
+          .map((letter) => letter.author);
+
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(recipients));
       } else if (req.url.match(/\/api\/([a-z]+)\/([0-9]+)/) && req.method === "GET") {
         //отдельное письмо
         const id = req.url.split("/")[3];
