@@ -40,9 +40,31 @@ const STYLES = [
   },
 ];
 
+const getLastChild = (element) => {
+  let currentElement = element;
+  while (currentElement.lastElementChild) currentElement = currentElement.lastElementChild;
+
+  return currentElement;
+};
+
 const applyStyle = (style) => {
-  console.log(style);
-  splitNode(location.range.anchor.path, style, true);
+  if (!location.range) {
+    contentEl.focus();
+
+    const lastChild = getLastChild(contentEl).firstChild;
+    const path = getPath(lastChild);
+    const offset = lastChild.textContent.length;
+
+    location.range = {
+      anchor: { path: path, offset: offset },
+      focus: { path: path, offset: offset },
+      path: path,
+      offset: offset,
+    };
+  }
+
+  splitNode(location, style, true);
+
   contentEl.innerHTML = treeToHTML(tree);
   setCaret();
 };
@@ -52,8 +74,6 @@ const initEditor = () => {
   contentEl.innerHTML = treeToHTML(tree);
 
   contentEl.addEventListener("input", (e) => {
-    console.log("change");
-
     const node = getNodeByPath(location.path, tree);
     const el = getElementFromPath(location.path);
 
@@ -61,7 +81,7 @@ const initEditor = () => {
   });
 
   contentEl.addEventListener("click", (e) => {
-    console.log("click");
+    //console.log("click");
     getCaret();
     updateButtons();
   });
@@ -106,7 +126,6 @@ const getSelectionStyles = () => {
 
   for (let node of nodes) {
     let nodeStyles = getNodeStyles(node);
-    console.log(nodeStyles);
 
     for (let i = commonStyles.length - 1; i >= 0; i--) {
       if (!nodeStyles.includes(commonStyles[i])) commonStyles.splice(i, 1);
@@ -190,7 +209,7 @@ const nextNode = (node) => {
   return null;
 };
 
-const splitNode = (path, style, isEnabled) => {
+const splitNode = (location, style, isEnabled) => {
   //console.log(location);
 
   const startNode = getNodeByPath(location.range.anchor.path);
@@ -219,7 +238,6 @@ const splitNode = (path, style, isEnabled) => {
       } else strMain = node.text.substring(location.range.anchor.offset);
 
       if (node.style) {
-        console.log("here");
         node.children = [];
         if (strBefore) node.children.push({ text: strBefore, parent: node });
         const mainNode = { text: strMain, style: style, parent: node };
@@ -236,7 +254,7 @@ const splitNode = (path, style, isEnabled) => {
         node.style = style;
 
         const parentChildren = node.parent ? node.parent.children : tree;
-        let index = path[path.length - 1];
+        let index = location.range.anchor.path[location.range.anchor.path.length - 1];
         if (strBefore) {
           parentChildren.splice(index, 0, { text: strBefore });
           index++;
@@ -252,7 +270,6 @@ const splitNode = (path, style, isEnabled) => {
       }
       location.path = location.range.focus.path;
       location.offset = location.range.focus.offset;
-      //console.log(location);
     }
   }
 };
@@ -267,7 +284,10 @@ const setCaret = () => {
 
   if (location.range) {
     const elStart = getElementFromPath(location.range.anchor.path);
-    range.setStart(elStart, location.range.anchor.offset);
+
+    const hasSpecial = elStart.parentElement.innerHTML.indexOf("\u200B") !== -1;
+
+    range.setStart(elStart, location.range.anchor.offset + hasSpecial ? 1 : 0);
   } else range.collapse(true);
 
   sel.removeAllRanges();
@@ -280,6 +300,7 @@ const getElementFromPath = (path) => {
 
   for (let i = 0; i < path.length; i++) currentEl = currentEl.childNodes.item(path[i]);
   if (currentEl.nodeType != Node.TEXT_NODE) return currentEl.firstChild;
+
   return currentEl;
 };
 
@@ -313,17 +334,6 @@ const getCaret = () => {
         };
       }
     }
-  } else if (document.selection && document.selection.createRange) {
-    console.log("document");
-    range = document.selection.createRange();
-    if (range.parentElement() == editableDiv) {
-      let tempEl = document.createElement("span");
-      editableDiv.insertBefore(tempEl, editableDiv.firstChild);
-      let tempRange = range.duplicate();
-      tempRange.moveToElementText(tempEl);
-      tempRange.setEndPoint("EndToEnd", range);
-      caretPos = tempRange.text.length;
-    }
   }
   return caretPos;
 };
@@ -340,7 +350,8 @@ const treeToHTML = (tree) => {
     }
 
     if (node.children) html += treeToHTML(node.children);
-    else html += node.text;
+    else if (node.text.length > 0) html += node.text;
+    else html += "\u200B";
 
     if (node.style) html += `</${node.style.tag}>`;
   }

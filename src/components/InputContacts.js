@@ -22,7 +22,7 @@ class InputContacts extends HTMLElement {
 
   addContact(contact) {
     this.value.push(contact.email);
-    const chip = addChild(this.chips, "span", "contact-chip");
+    const chip = addChild(this.chips, "span", "contact");
 
     addChild(chip, "user-avatar", null, null, null, { contact: contact });
     addChild(
@@ -41,6 +41,7 @@ class InputContacts extends HTMLElement {
       );
       this.chips.removeChild(chip);
     });
+    this.inputEl.value = "";
   }
 
   updateOptions() {
@@ -51,7 +52,7 @@ class InputContacts extends HTMLElement {
       addChild(div, "user-avatar", null, null, null, { contact: contact });
       const column = addChild(div, "div");
       addChild(column, "div", null, `${contact.name} ${contact.surname}`);
-      addChild(column, "div", null, contact.email);
+      addChild(column, "div", "contact__email", contact.email);
 
       div.addEventListener("click", () => {
         this.addContact(contact);
@@ -87,13 +88,12 @@ class InputContacts extends HTMLElement {
     });
 
     this.inputEl.addEventListener("input", (e) => {
-      console.log(e.target.value);
+      if (!this.isOpen) this.open();
 
       if (e.target.value.endsWith(" ")) {
         let contact = this.options.find((x) => x.email == e.target.value.trimEnd());
         if (!contact) contact = { email: e.target.value, name: e.target.value.split("@")[0] };
         this.addContact(contact);
-        e.target.value = "";
       } else
         this.displayedOptions = this.options.filter((x) =>
           (x.email + x.name + x.surname).includes(e.target.value)

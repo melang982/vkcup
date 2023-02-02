@@ -55,6 +55,28 @@ class ComposeButton extends HTMLElement {
     document.getElementById("editor__form").onsubmit = (e) => e.preventDefault();
 
     initEditor();
+
+    document.querySelector("#editor__to input").focus();
+
+    document.getElementById("editor__close").addEventListener("click", () => this.close());
+
+    document.getElementById("editor__file").addEventListener("change", (e) => {
+      console.log(e.target.files);
+      for (let file of e.target.files) {
+        const { name: fileName, size } = file;
+        const fileSize = (size / 1024).toFixed(2);
+
+        let reader = new FileReader();
+
+        reader.onload = (e) => {
+          addChild(document.getElementById("editor__files"), "img", null, null, {
+            src: e.target.result,
+          });
+        };
+
+        reader.readAsDataURL(file);
+      }
+    });
   }
 
   connectedCallback() {

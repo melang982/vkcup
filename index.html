@@ -16,6 +16,7 @@
     <template id="modal">
       <div id="modal__background">
         <div id="editor__modal" class="popup">
+          <button id="editor__close"><svg-icon name="close-big"></svg-icon></button>
           <form id="editor__form">
             <div id="editor__fields">
               <input-contacts id="editor__to" class="editor__row"></input-contacts>
@@ -25,11 +26,14 @@
               </div>
             </div>
             <div class="editor__row">
-              <button id="editor__attach">
+              <input type="file" id="editor__file" multiple />
+              <label for="editor__file" id="editor__file-label">
                 <svg-icon name="attach" width="24" height="24"></svg-icon>
                 <span data-i18n-key="attach"></span>
-              </button>
+              </label>
+              <div id="editor__files"></div>
             </div>
+
             <div id="editor__toolbar"></div>
             <div id="editor__content" contenteditable="true"></div>
             <div id="editor__actions">
