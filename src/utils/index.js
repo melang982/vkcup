@@ -26,4 +26,10 @@ const addChild = (
   return el;
 };
 
-export { addChild };
+const checkImage = (filename) => {
+  const imageExtensions = [".jpeg", ".jpg", ".png", ".gif"];
+  const fileExtension = filename.slice(filename.lastIndexOf("."));
+  return imageExtensions.includes(fileExtension);
+};
+
+export { addChild, checkImage };

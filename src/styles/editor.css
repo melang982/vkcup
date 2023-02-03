@@ -49,6 +49,7 @@ input-select:hover svg-icon {
 #editor__content {
   padding: 0 20px;
   outline: none;
+  height: 200px;
 }
 
 input-select {
@@ -141,13 +142,36 @@ input-contacts .option user-avatar {
   padding: 6px 6px 6px 16px;
 }
 
-#editor__files img {
+.editor__file {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
   width: 90px;
   height: 90px;
-  margin-top: 6px;
-  object-fit: cover;
   border-radius: 5px;
   border: 1px solid var(--border);
+}
+
+.editor__file button {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -12px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  background: var(--white);
+  border: 1px solid var(--border);
+}
+
+.editor__file img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .editor__row {
