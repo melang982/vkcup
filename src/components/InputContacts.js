@@ -42,6 +42,9 @@ class InputContacts extends HTMLElement {
       this.chips.removeChild(chip);
     });
     this.inputEl.value = "";
+
+    this.classList.remove("invalid");
+    document.getElementById("editor__to-error").style.display = "none";
   }
 
   updateOptions() {
@@ -79,6 +82,7 @@ class InputContacts extends HTMLElement {
     this.chips = addChild(this, "div", "chips");
     this.inputWrapper = addChild(this, "div", "contacts__wrapper");
     this.inputEl = addChild(this.inputWrapper, "input", null, this.value, { type: "text" });
+    addChild(this, "div", null, null, { id: "editor__to-error", "data-i18n-key": "to-error" });
 
     this.inputWrapper.addEventListener("click", (e) => {
       if (this.isOpen) this.close();

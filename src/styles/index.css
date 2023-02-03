@@ -57,11 +57,23 @@ a {
 }
 
 .btn-action {
+  position: relative;
   display: flex;
   align-items: center;
   padding: 0 20px;
   height: 36px;
   color: var(--text-primary);
+  background: rgba(0, 16, 61, 0.06);
+  border-radius: 8px;
+}
+
+.btn-action:hover::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
   background: rgba(0, 16, 61, 0.06);
   border-radius: 8px;
 }

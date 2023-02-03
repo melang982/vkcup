@@ -92,6 +92,18 @@ input-select .option {
   padding: 10px 24px 10px 16px;
 }
 
+#editor__to.invalid {
+  border-color: red;
+}
+
+#editor__to-error {
+  position: relative;
+  top: 7px;
+  font-size: 13px;
+  color: red;
+  display: none;
+}
+
 input-contacts {
   display: flex;
 }

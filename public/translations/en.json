@@ -42,5 +42,6 @@
   "attach": "Attach file",
   "send": "Send",
   "save": "Save",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "to-error": "The recipient's address was not specified"
 }

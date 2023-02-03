@@ -50,29 +50,37 @@ class ComposeButton extends HTMLElement {
       e.dontCloseModal = true;
     });
 
+    const toEl = document.getElementById("editor__to");
+    const errorEl = document.getElementById("editor__to-error");
+
     document.getElementById("editor__send").addEventListener("click", () => {
       const form = document.getElementById("editor__form");
       //console.log(form.elements);
 
-      const text = document.getElementById("editor__content").innerHTML;
-      const to = document.getElementById("editor__to").value;
+      const to = toEl.value;
+      if (!to || to.length == 0) {
+        toEl.classList.add("invalid");
+        errorEl.style.display = "block";
+      } //отправляем письмо
+      else {
+        const text = document.getElementById("editor__content").innerHTML;
+        let letter = {
+          title: form.elements.title.value,
+          text,
+          to,
+          important: form.elements.important.checked,
+        };
 
-      let letter = {
-        title: form.elements.title.value,
-        text,
-        to,
-        important: form.elements.important.checked,
-      };
+        if (this.files.length > 0 && checkImage(this.files[0].name))
+          //пока что посылаем только картинки
+          letter.doc = { img: this.files[0].base64 };
 
-      if (this.files.length > 0 && checkImage(this.files[0].name))
-        //пока что посылаем только картинки
-        letter.doc = { img: this.files[0].base64 };
-
-      sendLetter(letter).then(() => {
-        this.files = [];
-        resetEditor();
-        this.close();
-      });
+        sendLetter(letter).then(() => {
+          this.files = [];
+          resetEditor();
+          this.close();
+        });
+      }
     });
 
     document.getElementById("editor__form").onsubmit = (e) => e.preventDefault();
