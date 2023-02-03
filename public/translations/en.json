@@ -31,7 +31,7 @@
   "reset-filter": "Reset all",
   "not-found": "No messages",
   "back": "Return",
-  "to": "To: you",
+  "to": "To:",
   "and": "and",
   "download": "Download",
   "recipient": ["recipient", "recipients", "recipients"],

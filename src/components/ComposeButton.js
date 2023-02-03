@@ -1,4 +1,4 @@
-import { addChild, checkImage } from "../utils";
+import { addChild, checkImage, getFileSize } from "../utils";
 import { translateElement } from "../i18n";
 import { initEditor } from "../editor";
 import { getContacts, sendLetter } from "../api/api.js";
@@ -8,6 +8,7 @@ class ComposeButton extends HTMLElement {
 
     this.isOpen = false;
     this.modal = null;
+    this.files = [];
   }
 
   close() {
@@ -48,7 +49,9 @@ class ComposeButton extends HTMLElement {
     document.getElementById("editor__send").addEventListener("click", () => {
       const form = document.getElementById("editor__form");
       console.log(form.elements);
-      sendLetter({ title: form.elements.title.value, text: "hello text" }).then(() => this.close());
+      const text = document.getElementById("editor__content").innerHTML;
+      const to = document.getElementById("editor__to").value;
+      sendLetter({ title: form.elements.title.value, text, to }).then(() => this.close());
     });
 
     document.getElementById("editor__form").onsubmit = (e) => e.preventDefault();
@@ -60,11 +63,33 @@ class ComposeButton extends HTMLElement {
     document.getElementById("editor__close").addEventListener("click", () => this.close());
 
     const fileInput = document.getElementById("editor__file");
+
+    const updateFileSize = () => {
+      let numFiles = 0,
+        totalSize = 0;
+
+      for (let file of this.files) {
+        numFiles++;
+        totalSize += file.size;
+      }
+
+      const fileSizeEl = document.getElementById("editor__filesize");
+
+      fileSizeEl.innerHTML = "";
+
+      if (numFiles) {
+        addChild(fileSizeEl, "span", null, null, {
+          "data-i18n-declination": "file",
+          "data-i18n-num": numFiles,
+        });
+        if (totalSize) addChild(fileSizeEl, "span", null, `, ${getFileSize(totalSize)}`);
+      }
+    };
+
     fileInput.addEventListener("change", (e) => {
       for (let file of e.target.files) {
         const { name: fileName, size } = file;
-        const fileSize = (size / 1024).toFixed(2);
-
+        this.files.push(file);
         let reader = new FileReader();
 
         reader.onload = (e) => {
@@ -79,18 +104,16 @@ class ComposeButton extends HTMLElement {
           const removeBtn = addChild(fileEl, "button");
           addChild(removeBtn, "svg-icon", null, null, { name: "close" });
           removeBtn.addEventListener("click", () => {
-            const dataTransfer = new DataTransfer();
-            Array.from(fileInput.files).forEach((x) => {
-              if (x.name != fileName) dataTransfer.items.add(x);
-            });
-
-            fileInput.files = dataTransfer.files;
+            this.files = this.files.filter((x) => x.name == fileName);
             filesEl.removeChild(fileEl);
+            updateFileSize();
           });
         };
 
         reader.readAsDataURL(file);
       }
+
+      updateFileSize();
     });
   }
 

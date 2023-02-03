@@ -142,6 +142,12 @@ input-contacts .option user-avatar {
   padding: 6px 6px 6px 16px;
 }
 
+#editor__filesize {
+  padding-left: 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
 .editor__file {
   position: relative;
   display: flex;

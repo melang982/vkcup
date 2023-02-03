@@ -7,8 +7,10 @@ class LetterItem extends HTMLElement {
   }
 
   connectedCallback() {
+    const folderSlug = this.getAttribute("folderSlug");
+
     const link = addChild(this, "a", this.item.read ? "" : " unread", null, {
-      href: `/${this.getAttribute("folderSlug")}/${this.item.id}`,
+      href: `/${folderSlug}/${this.item.id}`,
       "data-link": "", //used for SPA routing
     });
 
@@ -17,16 +19,15 @@ class LetterItem extends HTMLElement {
 
     dot.addEventListener("click", (e) => e.preventDefault()); //не открываем письмо
 
-    addChild(link, "user-avatar", null, null, null, { contact: this.item.author });
+    let contact = this.item.author; //В отправленных отображается имя и аватар того, кому послали письмо
+    if (folderSlug == "sent")
+      contact = this.item.to ? this.item.to[0] : { name: "Вася", surname: "Иванов" }; //заглушка т.к. у многих отправленных нет адресата
+
+    addChild(link, "user-avatar", null, null, null, { contact: contact });
 
     addChild(link, "input", null, null, { type: "checkbox" });
 
-    addChild(
-      link,
-      "span",
-      "letter-item__sender",
-      `${this.item.author.name} ${this.item.author.surname}`
-    );
+    addChild(link, "span", "letter-item__sender", `${contact.name} ${contact.surname}`);
 
     const icons = addChild(link, "span", "letter-item__icons");
     if (this.item.bookmark) addChild(icons, "svg-icon", null, null, { name: "bookmark" });

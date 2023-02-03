@@ -25,7 +25,7 @@ class SingleLetter extends HTMLElement {
 
       if (data.to.length > 0) {
         const recipients =
-          ", " +
+          " " +
           data.to
             .slice(0, Math.min(3, data.to.length))
             .map((x) => x.name + " " + x.surname)

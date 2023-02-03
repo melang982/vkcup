@@ -152,9 +152,13 @@ fs.readFile("db.json", function (err, data) {
             title: bodyJson.title,
             text: bodyJson.text,
             date: new Date().toISOString(),
+            to: bodyJson.to,
+            read: true,
           };
           emails.push(newLetter);
-          folders["sent"].unshift(newLetter);
+          let folderLetter = { ...newLetter };
+          folderLetter.text = folderLetter.text.replace(/(<([^>]+)>)/gi, ""); //в списке писем хтмл не нужен
+          folders["sent"].unshift(folderLetter);
           nextId++;
           res.writeHead(201, { "Content-Type": "application/json" });
           res.end(JSON.stringify(newLetter));

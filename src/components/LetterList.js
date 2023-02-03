@@ -99,6 +99,7 @@ class LetterList extends HTMLElement {
     };
 
     this.addEventListener("scroll", virtualScroll);
+    window.addEventListener("resize", virtualScroll);
 
     const addItems = (jsonData) => {
       if (jsonData.data.length == 0) {

@@ -21,7 +21,7 @@ class InputContacts extends HTMLElement {
   }
 
   addContact(contact) {
-    this.value.push(contact.email);
+    this.value.push(contact);
     const chip = addChild(this.chips, "span", "contact");
 
     addChild(chip, "user-avatar", null, null, null, { contact: contact });

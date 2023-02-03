@@ -32,4 +32,10 @@ const checkImage = (filename) => {
   return imageExtensions.includes(fileExtension);
 };
 
-export { addChild, checkImage };
+const getFileSize = (number) => {
+  if (number < 1024) return `${number} b`;
+  else if (number >= 1024 && number < 1048576) return `${(number / 1024).toFixed(1)} KB`;
+  else if (number >= 1048576) return `${(number / 1048576).toFixed(1)} MB`;
+};
+
+export { addChild, checkImage, getFileSize };
