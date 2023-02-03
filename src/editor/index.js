@@ -2,7 +2,7 @@ import { addChild } from "../utils";
 import "../components/InputContacts";
 import "../components/InputSelect";
 
-const tree = [{ text: "hello world" }];
+const tree = [{ text: "" }];
 
 let contentEl = null;
 let buttons = [];
@@ -47,7 +47,7 @@ const getLastChild = (element) => {
   return currentElement;
 };
 
-const applyStyle = (style) => {
+const applyStyle = (style, enable = true) => {
   if (!location.range) {
     contentEl.focus();
 
@@ -63,7 +63,8 @@ const applyStyle = (style) => {
     };
   }
 
-  splitNode(location, style, true);
+  if (enable) splitNode(location, style);
+  else removeStyle(location, style);
 
   contentEl.innerHTML = treeToHTML(tree);
   setCaret();
@@ -81,7 +82,6 @@ const initEditor = () => {
   });
 
   contentEl.addEventListener("click", (e) => {
-    //console.log("click");
     getCaret();
     updateButtons();
   });
@@ -110,9 +110,7 @@ const initEditor = () => {
         //return setTimeout("", 300);
       });
 
-      btn.addEventListener("click", () => {
-        applyStyle(style);
-      });
+      btn.addEventListener("click", () => applyStyle(style, !btn.classList.contains("active")));
     }
   }
 };
@@ -125,6 +123,8 @@ const getSelectionStyles = () => {
   const nodes = getNodesBetweenPaths(startNode, finishNode);
 
   for (let node of nodes) {
+    if (node.text && !node.text.replace(/\s/g, "").length) continue;
+
     let nodeStyles = getNodeStyles(node);
 
     for (let i = commonStyles.length - 1; i >= 0; i--) {
@@ -209,33 +209,79 @@ const nextNode = (node) => {
   return null;
 };
 
-const splitNode = (location, style, isEnabled) => {
-  //console.log(location);
+const getSplitParts = (node, startNode, endNode) => {
+  let strBefore = "",
+    strMain = "",
+    strAfter = "";
+  if (node == startNode) strBefore = node.text.substring(0, location.range.anchor.offset);
+  if (node == endNode) {
+    strAfter = node.text.substring(location.range.focus.offset);
+    strMain = node.text.substring(
+      node == startNode ? location.range.anchor.offset : 0,
+      location.range.focus.offset
+    );
+  } else strMain = node.text.substring(location.range.anchor.offset);
 
+  return { strBefore, strMain, strAfter };
+};
+
+const removeStyle = (location, style) => {
+  //пока не сплитит, а убирает весь нод со стилем
   const startNode = getNodeByPath(location.range.anchor.path);
-  const finishNode = getNodeByPath(location.range.focus.path);
+  const endNode = getNodeByPath(location.range.focus.path);
 
-  const nodesBetween = getNodesBetweenPaths(startNode, finishNode);
+  const nodesBetween = getNodesBetweenPaths(startNode, endNode);
+  for (let node of nodesBetween) {
+    let styleNode = node; //ищем нод выше ответственный за этот стиль
+    const path = getNodePath(styleNode);
+    const indexToRemove = path.length - 1;
+
+    while (!styleNode.style || styleNode.style.name != style.name) styleNode = styleNode.parent;
+    let offset = 0;
+
+    const parentChildren = styleNode.parent ? styleNode.parent.children : tree;
+    let index = parentChildren.indexOf(styleNode);
+
+    for (let i = 0; i < index; i++) {
+      if (parentChildren[i].text) offset += parentChildren[i].text.length;
+    }
+
+    if (styleNode.children) {
+      styleNode.children.forEach((child) => {
+        parentChildren.splice(index, 0, child);
+        index++;
+      });
+      parentChildren.splice(index, 1);
+    } else delete styleNode.style;
+
+    location.range.anchor.path.splice(indexToRemove, 1);
+    location.range.anchor.offset += offset;
+    if (location.range.anchor.path.length == 0) location.range.anchor.path = [0];
+    location.range.focus.path.splice(indexToRemove, 1);
+    location.range.focus.offset += offset;
+    if (location.range.focus.path.length == 0) location.range.focus.path = [0];
+    location.path.splice(indexToRemove, 1);
+    location.offset = location.range.focus.offset;
+    if (location.path.length == 0) location.path = [0];
+    console.log(location);
+  }
+};
+
+const splitNode = (location, style, enable) => {
+  const startNode = getNodeByPath(location.range.anchor.path);
+  const endNode = getNodeByPath(location.range.focus.path);
+
+  const nodesBetween = getNodesBetweenPaths(startNode, endNode);
 
   for (let node of nodesBetween) {
-    let strBefore = "",
-      strMain = "",
-      strAfter = "";
-
-    if (node != startNode && node != finishNode) {
+    if (node != startNode && node != endNode) {
+      //посередине
       if (node.style) {
         node.children = [{ text: node.text, style: style, parent: node }];
         delete node.text;
       } else node.style = style;
     } else {
-      if (node == startNode) strBefore = node.text.substring(0, location.range.anchor.offset);
-      if (node == finishNode) {
-        strAfter = node.text.substring(location.range.focus.offset);
-        strMain = node.text.substring(
-          node == startNode ? location.range.anchor.offset : 0,
-          location.range.focus.offset
-        );
-      } else strMain = node.text.substring(location.range.anchor.offset);
+      let { strBefore, strMain, strAfter } = getSplitParts(node, startNode, endNode);
 
       if (node.style) {
         node.children = [];
@@ -245,7 +291,7 @@ const splitNode = (location, style, isEnabled) => {
         if (strAfter) node.children.push({ text: strAfter, parent: node });
 
         if (node == startNode) location.range.anchor = { path: getNodePath(mainNode), offset: 0 };
-        if (node == finishNode)
+        if (node == endNode)
           location.range.focus = { path: getNodePath(mainNode), offset: mainNode.text.length };
 
         delete node.text;
@@ -284,10 +330,9 @@ const setCaret = () => {
 
   if (location.range) {
     const elStart = getElementFromPath(location.range.anchor.path);
-
-    const hasSpecial = elStart.parentElement.innerHTML.indexOf("\u200B") !== -1;
-
-    range.setStart(elStart, location.range.anchor.offset + hasSpecial ? 1 : 0);
+    let offset = location.range.anchor.offset;
+    if (elStart.parentElement.innerHTML.indexOf("\u200B") !== -1) offset++;
+    range.setStart(elStart, offset);
   } else range.collapse(true);
 
   sel.removeAllRanges();
@@ -320,7 +365,6 @@ const getCaret = () => {
     sel,
     range;
   if (window.getSelection) {
-    //console.log("window");
     sel = window.getSelection();
 
     if (sel.rangeCount) {

@@ -10,21 +10,24 @@ const getContacts = () => {
 };
 
 const sendLetter = (letter) => {
-  fetch("/api/send", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(letter),
-  }).then((response) => {
-    if (response.status == 201) {
-      Object.keys(apiCache).forEach((key) => {
-        if (key.startsWith("/api/sent")) delete apiCache[key];
-      });
+  return new Promise((resolve, reject) => {
+    fetch("/api/send", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(letter),
+    }).then((response) => {
+      if (response.status == 201) {
+        Object.keys(apiCache).forEach((key) => {
+          if (key.startsWith("/api/sent")) delete apiCache[key];
+        });
 
-      if (location.pathname == "/sent") navigateTo("/sent");
-    }
+        if (location.pathname == "/sent") navigateTo("/sent");
+      }
+      resolve(response);
+    });
   });
 };
 

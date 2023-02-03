@@ -48,8 +48,7 @@ class ComposeButton extends HTMLElement {
     document.getElementById("editor__send").addEventListener("click", () => {
       const form = document.getElementById("editor__form");
       console.log(form.elements);
-      sendLetter({ title: form.elements.title.value, text: "hello text" });
-      this.close(); //td: дождаться ответа
+      sendLetter({ title: form.elements.title.value, text: "hello text" }).then(() => this.close());
     });
 
     document.getElementById("editor__form").onsubmit = (e) => e.preventDefault();
@@ -61,7 +60,7 @@ class ComposeButton extends HTMLElement {
     document.getElementById("editor__close").addEventListener("click", () => this.close());
 
     document.getElementById("editor__file").addEventListener("change", (e) => {
-      console.log(e.target.files);
+      //console.log(e.target.files);
       for (let file of e.target.files) {
         const { name: fileName, size } = file;
         const fileSize = (size / 1024).toFixed(2);
