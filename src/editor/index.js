@@ -79,15 +79,47 @@ const initEditor = () => {
   contentEl = document.getElementById("editor__content");
   contentEl.innerHTML = treeToHTML(tree);
 
+  contentEl.addEventListener("keydown", (e) => {
+    if (e.key == "Enter") {
+      getCaret();
+
+      const node = getNodeByPath(location.path, tree);
+      const parentChildren = node.parent ? node.parent.children : tree;
+      const index = parentChildren.indexOf(node);
+      const newNode = { type: "div", text: "" };
+
+      if (node.parent) newNode.parent = node.parent;
+      parentChildren.splice(index + 1, 0, newNode);
+
+      location.path[location.path.length - 1]++;
+      location.range.anchor.path[location.range.anchor.path.length - 1]++;
+      location.range.focus.path[location.range.focus.path.length - 1]++;
+
+      location.offset = 1;
+      location.range.anchor.offset = 1;
+      location.range.focus.offset = 1;
+
+      contentEl.innerHTML = treeToHTML(tree);
+
+      e.preventDefault();
+      setCaret();
+    }
+  });
+
   contentEl.addEventListener("input", (e) => {
     const node = getNodeByPath(location.path, tree);
     const el = getElementFromPath(location.path);
 
-    node.text = el.textContent;
+    if (el.textContent.includes("\u200B")) {
+      node.text = el.textContent.replace(/\u200B/g, "");
+      contentEl.innerHTML = treeToHTML(tree);
+      setCaret();
+    } else node.text = el.textContent;
   });
 
   contentEl.addEventListener("click", (e) => {
     getCaret();
+
     updateButtons();
   });
 
@@ -346,7 +378,10 @@ const setCaret = () => {
   if (location.range) {
     const elStart = getElementFromPath(location.range.anchor.path);
     let offset = location.range.anchor.offset;
-    if (elStart.parentElement.innerHTML.indexOf("\u200B") !== -1) offset++;
+    //console.log(elStart.textContent);
+
+    if (elStart.textContent.indexOf("\u200B") !== -1 && offset == 0) offset++;
+
     range.setStart(elStart, offset);
   } else range.collapse(true);
 
@@ -414,13 +449,14 @@ const treeToHTML = (tree) => {
       if (node.style.value?.style) attr = ` style="${node.style.value.style}"`;
       else if (node.style.name === "fontSize") attr = ` style="font-size:${node.style.value}px;"`;
       html += `<${node.style.tag}${attr}>`;
-    }
+    } else if (node.type == "div") html += `<div>`;
 
     if (node.children) html += treeToHTML(node.children);
     else if (node.text.length > 0) html += node.text;
     else html += "\u200B";
 
     if (node.style) html += `</${node.style.tag}>`;
+    else if (node.type == "div") html += `</div>`;
   }
 
   return html;

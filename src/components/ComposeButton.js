@@ -55,7 +55,6 @@ class ComposeButton extends HTMLElement {
 
     document.getElementById("editor__send").addEventListener("click", () => {
       const form = document.getElementById("editor__form");
-      //console.log(form.elements);
 
       const to = toEl.value;
       if (!to || to.length == 0) {
