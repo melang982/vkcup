@@ -2,7 +2,7 @@ import { addChild } from "../utils";
 import "../components/InputContacts";
 import "../components/InputSelect";
 
-const tree = [{ text: "" }];
+let tree = [{ text: "" }];
 
 let contentEl = null;
 let buttons = [];
@@ -68,6 +68,11 @@ const applyStyle = (style, enable = true) => {
 
   contentEl.innerHTML = treeToHTML(tree);
   setCaret();
+};
+
+const resetEditor = () => {
+  tree = [{ text: "" }];
+  contentEl.innerHTML = "";
 };
 
 const initEditor = () => {
@@ -421,4 +426,4 @@ const treeToHTML = (tree) => {
   return html;
 };
 
-export { initEditor };
+export { initEditor, resetEditor };

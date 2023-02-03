@@ -165,8 +165,15 @@ fs.readFile("db.json", function (err, data) {
             text: bodyJson.text,
             date: new Date().toISOString(),
             to: bodyJson.to,
+            important: bodyJson.important,
             read: true,
           };
+
+          if (bodyJson.doc && bodyJson.doc.img) {
+            saveAsJpg(bodyJson.doc.img, newLetter.id);
+            newLetter.doc = getFileSize(bodyJson.doc.img);
+          }
+
           emails.push(newLetter);
           let folderLetter = { ...newLetter };
           folderLetter.text = folderLetter.text.replace(/(<([^>]+)>)/gi, ""); //в списке писем хтмл не нужен

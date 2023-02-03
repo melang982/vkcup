@@ -1,6 +1,6 @@
 import { addChild, checkImage, getFileSize } from "../utils";
 import { translateElement } from "../i18n";
-import { initEditor } from "../editor";
+import { initEditor, resetEditor } from "../editor";
 import { getContacts, sendLetter } from "../api/api.js";
 class ComposeButton extends HTMLElement {
   constructor() {
@@ -52,16 +52,27 @@ class ComposeButton extends HTMLElement {
 
     document.getElementById("editor__send").addEventListener("click", () => {
       const form = document.getElementById("editor__form");
-      console.log(form.elements);
-      console.log(this.files);
+      //console.log(form.elements);
+
       const text = document.getElementById("editor__content").innerHTML;
       const to = document.getElementById("editor__to").value;
-      let letter = { title: form.elements.title.value, text, to };
+
+      let letter = {
+        title: form.elements.title.value,
+        text,
+        to,
+        important: form.elements.important.checked,
+      };
+
       if (this.files.length > 0 && checkImage(this.files[0].name))
         //пока что посылаем только картинки
         letter.doc = { img: this.files[0].base64 };
 
-      sendLetter(letter).then(() => this.close());
+      sendLetter(letter).then(() => {
+        this.files = [];
+        resetEditor();
+        this.close();
+      });
     });
 
     document.getElementById("editor__form").onsubmit = (e) => e.preventDefault();

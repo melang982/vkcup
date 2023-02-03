@@ -26,6 +26,8 @@
 #editor__actions {
   position: absolute;
   bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   gap: 8px;
   padding: 16px 20px;
@@ -45,7 +47,8 @@ input-select:hover svg-icon {
   opacity: 0.88;
 }
 
-#editor__toolbar use {
+#editor__toolbar use,
+label[for="important"] use {
   fill: var(--sidebar-text-primary);
 }
 
@@ -117,11 +120,28 @@ input-contacts .option user-avatar {
   width: 500px;
 }
 
-#editor__file {
+#editor__file,
+input[id="important"] {
   opacity: 0;
   position: absolute;
   width: 0.1px;
   height: 0.1px;
+}
+
+label[for="important"] {
+  position: absolute;
+  bottom: 21px;
+  right: 158px;
+  cursor: pointer;
+}
+
+label[for="important"] use {
+  opacity: 0.48;
+}
+
+input[id="important"]:checked + label use {
+  fill: #ff9e00;
+  opacity: 1;
 }
 
 #editor__file-label {
