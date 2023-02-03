@@ -53,9 +53,15 @@ class ComposeButton extends HTMLElement {
     document.getElementById("editor__send").addEventListener("click", () => {
       const form = document.getElementById("editor__form");
       console.log(form.elements);
+      console.log(this.files);
       const text = document.getElementById("editor__content").innerHTML;
       const to = document.getElementById("editor__to").value;
-      sendLetter({ title: form.elements.title.value, text, to }).then(() => this.close());
+      let letter = { title: form.elements.title.value, text, to };
+      if (this.files.length > 0 && checkImage(this.files[0].name))
+        //пока что посылаем только картинки
+        letter.doc = { img: this.files[0].base64 };
+
+      sendLetter(letter).then(() => this.close());
     });
 
     document.getElementById("editor__form").onsubmit = (e) => e.preventDefault();
@@ -92,11 +98,16 @@ class ComposeButton extends HTMLElement {
 
     fileInput.addEventListener("change", (e) => {
       for (let file of e.target.files) {
-        const { name: fileName, size } = file;
-        this.files.push(file);
+        const fileName = file.name;
+
         let reader = new FileReader();
 
         reader.onload = (e) => {
+          this.files.push({
+            name: fileName,
+            base64: e.target.result.replace("data:", "").replace(/^.+,/, ""),
+          });
+
           const filesEl = document.getElementById("editor__files");
           const fileEl = addChild(filesEl, "div", "editor__file");
           if (checkImage(fileName))
@@ -108,7 +119,7 @@ class ComposeButton extends HTMLElement {
           const removeBtn = addChild(fileEl, "button");
           addChild(removeBtn, "svg-icon", null, null, { name: "close" });
           removeBtn.addEventListener("click", () => {
-            this.files = this.files.filter((x) => x.name == fileName);
+            this.files = this.files.filter((x) => x.name != fileName);
             filesEl.removeChild(fileEl);
             updateFileSize();
           });

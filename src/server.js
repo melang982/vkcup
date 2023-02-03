@@ -100,6 +100,8 @@ fs.readFile("db.json", function (err, data) {
     return new Date(b.date) - new Date(a.date);
   });
 
+  const contacts = [];
+
   emails.forEach((email, index) => {
     if (email.flag) email.flag = CATEGORIES[email.flag];
     email.id = emails.length - index - 1; //добавляем id
@@ -112,7 +114,11 @@ fs.readFile("db.json", function (err, data) {
     } else delete email.doc;
 
     const clone = Object.assign({}, email);
-    delete clone.to; //адресаты с их аватарами тоже не нужны
+
+    if (email.folder == "Отправленные") {
+      if (email.to) email.to.forEach((contact) => contacts.push(contact));
+    } else delete clone.to; //адресаты с их аватарами нужны только в папке "Отправленное"
+
     const textLength = 165 - clone.title.length;
     if (textLength > 0) clone.text = clone.text.substring(0, textLength); //отрезаем лишний текст
     else clone.text = "";
@@ -122,6 +128,7 @@ fs.readFile("db.json", function (err, data) {
   });
 
   emails.reverse();
+
   let nextId = emails.length;
 
   const PAGE_SIZE = 20;
@@ -146,6 +153,11 @@ fs.readFile("db.json", function (err, data) {
         });
         req.on("end", () => {
           const bodyJson = JSON.parse(body);
+
+          bodyJson.to.forEach((contact) => {
+            if (!contacts.find((x) => x.email == contact.email)) contacts.unshift(contact);
+          });
+
           const newLetter = {
             id: nextId,
             author: { name: "Лариса", surname: "Тюленева" },
@@ -165,12 +177,9 @@ fs.readFile("db.json", function (err, data) {
         });
       } else if (req.url === "/api/contacts") {
         //последние адресаты из Отправленных
-        const recipients = folders["sent"]
-          .slice(0, Math.min(10, folders["sent"].length - 1))
-          .map((letter) => letter.author);
 
         res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(recipients));
+        res.end(JSON.stringify(Array.from(contacts).slice(0, 10)));
       } else if (req.url.match(/\/api\/([a-z]+)\/([0-9]+)/) && req.method === "GET") {
         //отдельное письмо
         const id = req.url.split("/")[3];

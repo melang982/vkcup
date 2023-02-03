@@ -8,12 +8,13 @@ class SingleLetter extends HTMLElement {
 
   connectedCallback() {
     getSingleLetter(this.getAttribute("id")).then((data) => {
-      addChild(this, "h1", null, data.title);
+      addChild(this, "h1", null, data.title.length ? data.title : "(no subject)");
       const header = addChild(this, "div", "letter__header");
       if (!data.read) addChild(header, "div", "unread-dot");
       addChild(header, "user-avatar", null, null, null, { contact: data.author });
 
       const column = addChild(header, "div", "letter__header__column");
+
       addChild(column, "span", null, `${data.author.name} ${data.author.surname}`);
       addChild(column, "span", "letter__date footnote", null, {
         "data-i18n-letter-date": data.date,
@@ -28,7 +29,7 @@ class SingleLetter extends HTMLElement {
           " " +
           data.to
             .slice(0, Math.min(3, data.to.length))
-            .map((x) => x.name + " " + x.surname)
+            .map((x) => x.name + (x.surname ? " " + x.surname : ""))
             .join(", ");
 
         const numOthers = data.to.length - 3;

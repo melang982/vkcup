@@ -20,14 +20,16 @@ class LetterItem extends HTMLElement {
     dot.addEventListener("click", (e) => e.preventDefault()); //не открываем письмо
 
     let contact = this.item.author; //В отправленных отображается имя и аватар того, кому послали письмо
-    if (folderSlug == "sent")
-      contact = this.item.to ? this.item.to[0] : { name: "Вася", surname: "Иванов" }; //заглушка т.к. у многих отправленных нет адресата
+    if (folderSlug == "sent") contact = this.item.to[0];
 
     addChild(link, "user-avatar", null, null, null, { contact: contact });
 
     addChild(link, "input", null, null, { type: "checkbox" });
 
-    addChild(link, "span", "letter-item__sender", `${contact.name} ${contact.surname}`);
+    let fullName = contact.name;
+    if (contact.surname) fullName += " " + contact.surname;
+
+    addChild(link, "span", "letter-item__sender", fullName);
 
     const icons = addChild(link, "span", "letter-item__icons");
     if (this.item.bookmark) addChild(icons, "svg-icon", null, null, { name: "bookmark" });
@@ -36,7 +38,12 @@ class LetterItem extends HTMLElement {
       if (this.item.important) addChild(icons, "svg-icon", null, null, { name: "exclamation" });
     }
     const content = addChild(link, "span", "letter-item__content");
-    addChild(content, "span", "letter-item__title", this.item.title);
+    addChild(
+      content,
+      "span",
+      "letter-item__title",
+      this.item.title.length ? this.item.title : "(no subject)"
+    );
     addChild(content, "span", "letter-item__text", this.item.text);
 
     if (this.item.flag) {

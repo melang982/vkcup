@@ -113,6 +113,10 @@ input-contacts .option user-avatar {
   all: unset;
 }
 
+#editor__modal input[id="title"] {
+  width: 500px;
+}
+
 #editor__file {
   opacity: 0;
   position: absolute;

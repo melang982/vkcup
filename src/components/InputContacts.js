@@ -51,7 +51,7 @@ class InputContacts extends HTMLElement {
       const div = addChild(this.popover, "div", "option");
       addChild(div, "user-avatar", null, null, null, { contact: contact });
       const column = addChild(div, "div");
-      addChild(column, "div", null, `${contact.name} ${contact.surname}`);
+      addChild(column, "div", null, contact.name + (contact.surname ? " " + contact.surname : ""));
       addChild(column, "div", "contact__email", contact.email);
 
       div.addEventListener("click", () => {
