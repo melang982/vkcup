@@ -15,6 +15,9 @@
   --text-primary: #2c2d2e;
   --sidebar-text-primary: #333333;
   --sidebar-text-active: #333333;
+  --editor: #333333;
+  --editor-dark: #2c2d2e;
+  --editor-secondary: rgba(0, 16, 61, 0.07);
   --text-link: #005bd1;
   --compose: #333333;
   --border: rgba(0, 16, 61, 0.12);
@@ -62,8 +65,8 @@ a {
   align-items: center;
   padding: 0 20px;
   height: 36px;
-  color: var(--text-primary);
-  background: rgba(0, 16, 61, 0.06);
+  color: var(--editor-dark);
+  background: var(--editor-secondary);
   border-radius: 8px;
 }
 

@@ -12,6 +12,9 @@
   --text-primary: #e7e8ea;
   --sidebar-text-primary: #e7e8ea;
   --sidebar-text-active: #fff;
+  --editor: #e7e8ea;
+  --editor-dark: #e7e8ea;
+  --editor-secondary: rgba(255, 255, 255, 0.07);
   --text-link: #589bff;
   --logo: #fff;
   --border: rgba(255, 255, 255, 0.16);
