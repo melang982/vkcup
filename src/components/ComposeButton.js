@@ -42,6 +42,10 @@ class ComposeButton extends HTMLElement {
       if (this.isOpen && !e.dontCloseModal) this.close();
     });
 
+    document.getElementById("editor__cancel").addEventListener("click", (e) => {
+      if (this.isOpen) this.close();
+    });
+
     document.getElementById("editor__modal").addEventListener("click", (e) => {
       e.dontCloseModal = true;
     });

@@ -263,11 +263,10 @@ const removeStyle = (location, style) => {
     location.path.splice(indexToRemove, 1);
     location.offset = location.range.focus.offset;
     if (location.path.length == 0) location.path = [0];
-    console.log(location);
   }
 };
 
-const splitNode = (location, style, enable) => {
+const splitNode = (location, style) => {
   const startNode = getNodeByPath(location.range.anchor.path);
   const endNode = getNodeByPath(location.range.focus.path);
 
@@ -277,7 +276,17 @@ const splitNode = (location, style, enable) => {
     if (node != startNode && node != endNode) {
       //посередине
       if (node.style) {
-        node.children = [{ text: node.text, style: style, parent: node }];
+        let newNode = { style: style, parent: node };
+        if (node.children) {
+          newNode.children = [];
+          for (let child of node.children) {
+            child.parent = newNode;
+            newNode.children.push(child);
+          }
+        } else newNode.text = node.text;
+
+        node.children = [newNode];
+
         delete node.text;
       } else node.style = style;
     } else {
@@ -300,7 +309,8 @@ const splitNode = (location, style, enable) => {
         node.style = style;
 
         const parentChildren = node.parent ? node.parent.children : tree;
-        let index = location.range.anchor.path[location.range.anchor.path.length - 1];
+        let index = parentChildren.indexOf(node);
+
         if (strBefore) {
           parentChildren.splice(index, 0, { text: strBefore });
           index++;
@@ -371,10 +381,18 @@ const getCaret = () => {
       range = sel.getRangeAt(0);
 
       if (contentEl.contains(range.commonAncestorContainer)) {
-        location.path = getPath(sel.anchorNode);
+        const position = sel.anchorNode.compareDocumentPosition(sel.focusNode);
+        const backward =
+          (!position && sel.anchorOffset > sel.focusOffset) ||
+          position === Node.DOCUMENT_POSITION_PRECEDING;
+
+        const startNode = backward ? sel.focusNode : sel.anchorNode;
+        const endNode = backward ? sel.anchorNode : sel.focusNode;
+
+        location.path = getPath(startNode);
         location.range = {
-          anchor: { path: getPath(sel.anchorNode), offset: range.startOffset },
-          focus: { path: getPath(sel.focusNode), offset: range.endOffset },
+          anchor: { path: getPath(startNode), offset: range.startOffset },
+          focus: { path: getPath(endNode), offset: range.endOffset },
         };
       }
     }

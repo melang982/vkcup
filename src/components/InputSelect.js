@@ -46,7 +46,12 @@ class InputSelect extends HTMLElement {
 
   connectedCallback() {
     const btn = addChild(this, "button");
-    if (this.showValue) this.valueEl = addChild(btn, "span", null, this.value);
+    if (this.showValue)
+      this.valueEl = addChild(btn, "span", null, this.value, {
+        style: `font-size: 14px;
+    position: relative;
+    top: -3px;`,
+      });
     if (this.icon)
       addChild(btn, "svg-icon", null, null, { width: "16", height: "16", name: this.icon });
     addChild(btn, "svg-icon", null, null, { width: "16", height: "16", name: "chevron_select" });

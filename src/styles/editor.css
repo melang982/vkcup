@@ -32,8 +32,11 @@
 }
 
 #editor__toolbar button {
-  padding: 0 8px;
   opacity: 0.48;
+}
+
+#editor__toolbar > button {
+  padding: 0 8px;
 }
 
 #editor__toolbar button:hover,
@@ -54,6 +57,7 @@ input-select:hover svg-icon {
 
 input-select {
   position: relative;
+  padding-left: 8px;
 }
 
 input-select svg-icon {
